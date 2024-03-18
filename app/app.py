@@ -1,12 +1,23 @@
 from flask import Flask, send_from_directory, make_response, render_template,request, redirect, url_for, session
 from flask_pymongo import PyMongo
+# from flask import Flask 
+# from flask_bcrypt import Bcrypt
+import bcrypt
+import os
+
 
 
 app = Flask(__name__)
 
-app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+#app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/myDatabase')
+
+app.secret_key = 'secretkey123456789'
+
 mongo = PyMongo(app)
 
+
+print("-=-=-=-=- Here -> ", app.config["MONGO_URI"])
 
 
 @app.route('/')
@@ -15,21 +26,29 @@ def root():
     response.headers["X-Content-Type-Options"] = "nosniff"
     
     if 'username' in session:
-        return f"Welcome {session['username']}! <a href='/logout'>Logout</a>"
-    
+        output = f"Here -> new guy called, {session['username']}! <a href='/logout'>Logout</a>"
+        response = make_response(output)
+        
+    else:
+        response = send_from_directory('.', 'index.html')
+
     return response
+        
+    
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
+    password = password.encode('utf-8')
 
     user = mongo.db.users.find_one({'username': username})
-
-    if user and user['password'] == password:
+    
+    if user and 'password' in user and bcrypt.checkpw(password, user['password']) :
         session['username'] = username
-        
+                
     else:
+        
         return "wrong username and/or password", 401
     
     return redirect(url_for('root'))
@@ -50,11 +69,15 @@ def register():
     if user_check:
             return 'username already in use', 400
 
+    password = password.encode('utf-8')
+
+    salt = bcrypt.gensalt()
+    hash = bcrypt.hashpw(password, salt)
 
     mongo.db.users.insert_one(
         {
         'username': username,
-        'password_hash': password
+        'password': hash,
         }
     )
 
@@ -65,6 +88,9 @@ def register():
 @app.route('/logout')
 def logout():
     # idk what to do here for logout functionality 
+    
+    session.pop('username', None)
+    
     return redirect(url_for('root'))
 
 
