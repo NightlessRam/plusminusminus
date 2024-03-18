@@ -18,3 +18,5 @@ Group members:
 #https://www.fullstackpython.com/flask-templating-render-template-examples.html
 
 #https://www.geeksforgeeks.org/python-os-environ-object/
+
+#https://www.freecodecamp.org/news/how-to-use-fetch-api/

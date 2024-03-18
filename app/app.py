@@ -39,7 +39,7 @@ def login():
     if user and 'password' in user and user['password'] == password:
         
         session['username'] = username
-        
+                
     else:
         
         return "wrong username and/or password", 401
@@ -77,6 +77,9 @@ def register():
 @app.route('/logout')
 def logout():
     # idk what to do here for logout functionality 
+    
+    session.pop('username', None)
+    
     return redirect(url_for('root'))
 
 

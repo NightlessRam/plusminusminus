@@ -31,5 +31,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function logout() {
     // idk how to log out rn back to youtube videos ig
+
+    fetch('/logout', {
+        method: 'POST',
+    })
+    .then(response => {
+        if (response.ok) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('registration-form').style.display = 'block';
+        }
+    })
+    
     console.log('user logged out');
 }
