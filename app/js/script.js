@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    
+
     var toggleButton = document.getElementById('toggleButton');
     var toggleImage = document.getElementById('toggleImage');
     
