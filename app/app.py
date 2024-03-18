@@ -14,7 +14,6 @@ app.secret_key = 'secretkey123456789'
 mongo = PyMongo(app)
 
 
-
 print("-=-=-=-=- Here -> ", app.config["MONGO_URI"])
 
 
@@ -24,10 +23,15 @@ def root():
     response.headers["X-Content-Type-Options"] = "nosniff"
     
     if 'username' in session:
-        output = f"Welcome {session['username']}! <a href='/logout'>Logout</a>"
+        output = f"Here -> new guy called, {session['username']}! <a href='/logout'>Logout</a>"
         response = make_response(output)
         
+    else:
+        response = send_from_directory('.', 'index.html')
+
     return response
+        
+    
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
