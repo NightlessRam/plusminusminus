@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var button = document.getElementById('button(1)');
+    
+    var button = document.getElementById('toggleButton');
+    var image = document.getElementById('toggleImage');
+    
+    image.style.display = 'none';
+    
     button.addEventListener('click', function() {
-        alert('button 1 (test)');
+        if (image.style.display === 'none') {
+            image.style.display = 'block';
+        } else {
+            image.style.display = 'none';
+        }
     });
 });

@@ -1,11 +1,11 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #35285f;
+    background-color: pink;
     text-align: center;
 }
 
 h1 {
-    color: rgb(112, 82, 87);
+    color: white;
 }
 
 button {
