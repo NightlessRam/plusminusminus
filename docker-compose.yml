@@ -2,6 +2,8 @@ version: '3.3'
 services:
   mongo: 
       image: mongo:4.2.5
+
+      
       ports:
         - '27017:27017'
       
@@ -17,6 +19,8 @@ services:
       - ./app:/usr/src/app
     depends_on:
       - mongo
+    #links:
+    #  - mongo
 
 
   

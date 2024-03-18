@@ -1,11 +1,20 @@
 from flask import Flask, send_from_directory, make_response, render_template,request, redirect, url_for, session
 from flask_pymongo import PyMongo
 
+import os
+
 
 app = Flask(__name__)
 
-app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+#app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/myDatabase')
+
 mongo = PyMongo(app)
+
+
+
+print("-=-=-=-=- Here -> ", app.config["MONGO_URI"])
+
 
 
 
