@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (loggedIn === true) {
         document.getElementById('home-page').style.display = 'block';
-        document.getElementById('username').textContent = 'YourUsername'; // Replace with actual username
+        document.getElementById('username').textContent = 'test Username';
         document.getElementById('registration-form').style.display = 'none';
         document.getElementById('login-form').style.display = 'none';
     } else {

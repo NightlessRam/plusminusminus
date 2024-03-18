@@ -1,16 +1,72 @@
-from flask import Flask, send_from_directory, make_response
+from flask import Flask, send_from_directory, make_response, render_template,request, redirect, url_for, session
 from flask_pymongo import PyMongo
 
 
 app = Flask(__name__)
+
 app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
 mongo = PyMongo(app)
+
+
 
 @app.route('/')
 def root():
     response = send_from_directory('.', 'index.html')
     response.headers["X-Content-Type-Options"] = "nosniff"
+    
+    if 'username' in session:
+        return f"Welcome {session['username']}! <a href='/logout'>Logout</a>"
+    
     return response
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
+
+    user = mongo.db.users.find_one({'username': username})
+
+    if user and user['password'] == password:
+        session['username'] = username
+        
+    else:
+        return "wrong username and/or password", 401
+    
+    return redirect(url_for('root'))
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    
+    username = request.form['username']
+    password = request.form['password']
+    password2 = request.form['password2']
+    
+    if password != password2:
+            return 'passowrds not same', 400
+    
+    user_check = mongo.db.users.find_one({'username': username})
+
+    if user_check:
+            return 'username already in use', 400
+
+
+    mongo.db.users.insert_one(
+        {
+        'username': username,
+        'password_hash': password
+        }
+    )
+
+    session['username'] = username
+
+    return redirect(url_for('root'))
+
+@app.route('/logout')
+def logout():
+    # idk what to do here for logout functionality 
+    return redirect(url_for('root'))
+
 
 @app.route('/css/style.css')
 def css():
@@ -34,4 +90,4 @@ def image():
     return response
 
 if __name__ == '__main__':
-    app.run( host='0.0.0.0', port=8080)
+    app.run( host='0.0.0.0', port=8080, debug=True)

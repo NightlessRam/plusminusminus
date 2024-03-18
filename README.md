@@ -11,3 +11,7 @@ Group members:
 
 
 #https://flask-pymongo.readthedocs.io/en/latest/
+
+#https://flask.palletsprojects.com/en/2.3.x/quickstart/
+
+#https://www.fullstackpython.com/flask-templating-render-template-examples.html
