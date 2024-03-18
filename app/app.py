@@ -2,6 +2,7 @@ from flask import Flask, send_from_directory, make_response, render_template,req
 from flask_pymongo import PyMongo
 
 import os
+import bcrypt
 
 
 app = Flask(__name__)
@@ -39,9 +40,10 @@ def login():
     password = request.form['password']
 
     user = mongo.db.users.find_one({'username': username})
+    
+    print(f"-+-+-+ hash in db -+-+-+: {user['password']}")
 
-    if user and 'password' in user and user['password'] == password:
-        
+    if user and bcrypt.checkpw(password.encode('utf-8'), user['password']):        
         session['username'] = username
                 
     else:
@@ -64,13 +66,16 @@ def register():
     user_check = mongo.db.users.find_one({'username': username})
 
     if user_check:
-            return 'username already in use', 400
+        return 'username already in use', 400
 
-
+    h_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+    
+    print(f"-+-+-+ hashed password -+-+-+: {h_password}") 
+    
     mongo.db.users.insert_one(
         {
         'username': username,
-        'password': password
+        'password': h_password
         }
     )
 
