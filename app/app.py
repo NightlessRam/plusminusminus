@@ -1,6 +1,10 @@
 from flask import Flask, send_from_directory, make_response
+from flask_pymongo import PyMongo
+
 
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+mongo = PyMongo(app)
 
 @app.route('/')
 def root():

@@ -1,8 +1,16 @@
 version: '3.3'
 services:
+  mongo: 
+      image: mongo:4.2.5
+      ports:
+        - '27017:27017'
   app:
     build: .
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/myDatabase
     ports:
       - "8080:8080"
     volumes:
       - ./app:/usr/src/app
+    
+  
