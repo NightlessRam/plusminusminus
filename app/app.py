@@ -16,16 +16,15 @@ mongo = PyMongo(app)
 print("-=-=-=-=- Here -> ", app.config["MONGO_URI"])
 
 
-
-
 @app.route('/')
 def root():
     response = send_from_directory('.', 'index.html')
     response.headers["X-Content-Type-Options"] = "nosniff"
     
     if 'username' in session:
-        return f"Welcome {session['username']}! <a href='/logout'>Logout</a>"
-    
+        output = f"Welcome {session['username']}! <a href='/logout'>Logout</a>"
+        response = make_response(output)
+        
     return response
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -35,10 +34,12 @@ def login():
 
     user = mongo.db.users.find_one({'username': username})
 
-    if user and user['password'] == password:
+    if user and 'password' in user and user['password'] == password:
+        
         session['username'] = username
         
     else:
+        
         return "wrong username and/or password", 401
     
     return redirect(url_for('root'))
@@ -63,7 +64,7 @@ def register():
     mongo.db.users.insert_one(
         {
         'username': username,
-        'password_hash': password
+        'password': password
         }
     )
 
