@@ -1,0 +1,16 @@
+body {
+    font-family: 'Roboto', sans-serif;
+
+
+    background-color: pink;
+    text-align: center;
+}
+
+h1 {
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    margin-top: 20px;
+}
