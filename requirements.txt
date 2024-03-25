@@ -1,2 +1,6 @@
 Flask-PyMongo==2.3.0
+
 bcrypt
+bleach
+pytz
+
