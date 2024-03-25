@@ -2,12 +2,14 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_pymongo import PyMongo
 import os
 import bcrypt
+
 from datetime import datetime
 from bson.objectid import ObjectId
 import bleach
 import hashlib
 import secrets
 import pytz
+
 
 
 
@@ -45,6 +47,7 @@ def register():
     password = request.form['password']
     password2 = request.form['password2']
 
+
     if password != password2:
         return 'Passwords do not match', 400
 
@@ -66,6 +69,7 @@ def login():
     password = request.form['password']
     user = mongo.db.users.find_one({'username': username})
 
+
     if password is None:
         return 'Password is required', 400
 
@@ -76,6 +80,7 @@ def login():
         # Hash the token before storing it in the database (using SHA-256)
         hash_object = hashlib.sha256(token.encode('utf-8'))
         token_hash = hash_object.hexdigest()
+
 
         # Store the hash in the 'session' collection
         mongo.db.session.insert_one({
