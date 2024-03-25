@@ -1,11 +1,11 @@
 # CSE 312 Web Project
 ### Group name: 200 OK
 ### Group members:
-1. "ThisIsDiff"
-2. "gittoit"
-3. "ChrisChen1771"
-4. "xXColinWongXx"
-5. "NightlessRam"
+1. "ThisIsDiff" ubit: chongzep
+2. "gittoit" ubit: tlee47
+3. "ChrisChen1771" ubit: ychen379
+4. "xXColinWongXx" ubit: Colinwon
+5. "NightlessRam" ubit: guoweixu
 
 # Overview 
 We are designing a social media web app where users can upload food reviews and connect with one another to show each other the new restaurants, bars, cafes, or food courts they discover. Users can currently post and interact with other posts, but we will have more interactive features on the way!
