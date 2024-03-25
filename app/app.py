@@ -3,6 +3,17 @@ from flask_pymongo import PyMongo
 
 import os
 import bcrypt
+<<<<<<< Updated upstream
+=======
+from datetime import datetime
+from bson.objectid import ObjectId
+import bleach
+import hashlib
+import secrets
+import pytz
+import html
+from markupsafe import Markup
+>>>>>>> Stashed changes
 
 
 app = Flask(__name__)
@@ -19,6 +30,7 @@ print("-=-=-=-=- Here -> ", app.config["MONGO_URI"])
 
 
 @app.route('/')
+<<<<<<< Updated upstream
 def root():
     response = send_from_directory('.', 'index.html')
     response.headers["X-Content-Type-Options"] = "nosniff"
@@ -26,6 +38,18 @@ def root():
     if 'username' in session:
         output = f"Here -> new guy called, {session['username']}! <a href='/logout'>Logout</a>"
         response = make_response(output)
+=======
+def index():
+    posts = list(mongo.db.posts.find())  #retrieve all posts from database
+    token = request.cookies.get('auth_token')
+    #init username as 'Guest'
+    username = 'Guest'
+    if token:
+        #hash token to match stored hash
+        hash_object = hashlib.sha256(token.encode('utf-8'))
+        token_hash = hash_object.hexdigest()
+        session_record = mongo.db.session.find_one({'token_hash': token_hash})
+>>>>>>> Stashed changes
         
     else:
         response = send_from_directory('.', 'index.html')
@@ -99,12 +123,48 @@ def css():
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
 
+<<<<<<< Updated upstream
 @app.route('/js/script.js')
 def js():
     response = make_response(send_from_directory('js', 'script.js'))
     response.headers['Content-Type'] = 'application/javascript'
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
+=======
+@app.route('/posts', methods=['POST'])
+def create_post():
+    content = bleach.clean(request.form['content'])  # Sanitize input
+    # content = request.form['content']
+    
+    # content = html.escape(request.form['content'])
+    # content = str(content)
+    #retrieve token from cookie
+    token = request.cookies.get('auth_token')
+    
+    #init username as 'Guest'
+    username = 'Guest'
+    if token:
+        # Hash the token to match the stored hash
+        hash_object = hashlib.sha256(token.encode('utf-8'))
+        token_hash = hash_object.hexdigest()
+        # Find the session in the database using the hashed token
+        session_record = mongo.db.session.find_one({'token_hash': token_hash})
+        
+        if session_record:
+            # If a session is found, retrieve the username from the session
+            username = session_record['username']
+    post = {
+        'username': username,
+        'content': content,
+        'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d'),
+        'like': 0,  
+        'dislike': 0  
+    }
+    mongo.db.posts.insert_one(post)
+    # post['_id'] = str(post['_id'])  #convert ObjectId to string for JSON serialization
+    # return jsonify(post)
+    return redirect(url_for('index'))
+>>>>>>> Stashed changes
 
 @app.route('/image/objonecam.jpg')
 def image():
