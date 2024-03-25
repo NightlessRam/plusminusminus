@@ -7,38 +7,44 @@
 4. "xXColinWongXx"
 5. "NightlessRam"
 
+# Overview 
+We are designing a social media web app where users can upload food reviews and connect with one another to show each other the new restaurants, bars, cafes, or food courts they discover. Users can currently post and interact with other posts, but we will have more interactive features on the way!
+
 #  WalkThrough 
 [1) Register an Account](#register-an-account-with-us)
 
 [2) Create a Post](#create-a-post-to-share-with-others)
 
-[3) Interact with other Posts](#interact-with-other-posts-using-the-likedislike-button)
+[3) Interact with other Posts](#interact-with-other-posts)
 
-## Preview As a Guest & Click the Image Button.
+## Preview As a Guest & Click the Image Button
  <img width="1251" alt="Screenshot 2024-03-24 at 23 34 55" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/1de8c2e2-605d-4364-b1e1-26346f320958">
  <img width="1344" alt="Screenshot 2024-03-24 at 23 39 12" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ef8df402-27ed-43b5-aab3-408fdb18b9cb">
 
-## Register an Account With Us.
- <img width="1075" alt="Screenshot 2024-03-24 at 23 41 18" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/5d7ad462-53ab-498a-9eb9-e2e77f723f82"> 
-  <strong>Make Sure to remember your PASSWORD, as we have no support for password recovery right now! </strong>
- <img width="1344" alt="Screenshot 2024-03-24 at 23 42 17" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ca1b8e7f-82db-4651-9d0b-3818c6e78cb2">
+## Register an Account With Us
+<img width="1040" alt="Screenshot 2024-03-25 at 00 40 51" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/b7a17797-a84c-4e36-8a7f-5a7cc0bd6115">
+ <strong>Make Sure to remember your PASSWORD, as we have no support for password recovery right now! </strong> 
+<img width="1330" alt="Screenshot 2024-03-25 at 00 41 22" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/4bd35205-e475-453a-898c-e7fda71c7a75">
 
-## Once logged in, the username registered with your account is displayed at the top in white.
-<img width="1098" alt="Screenshot 2024-03-24 at 23 55 21" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/c566db62-c646-471a-b203-f52fce364c96">
+## Login with the Credentials 
+<img width="1040" alt="Screenshot 2024-03-25 at 01 05 15" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/f3eec6a4-209a-42e1-a0ab-44c9caafd7fd">
 
-## Create a Post to Share with Others.
-<img width="1079" alt="Screenshot 2024-03-25 at 00 03 37" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/7d66a0d9-1e93-40a7-a0ed-b5c8ae1835ea">
-<img width="1141" alt="Screenshot 2024-03-25 at 00 04 18" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/408cc021-4331-4d16-865e-28191822758d">
+## Once logged in, the username registered with your account is displayed at the top in white
+<img width="1040" alt="Screenshot 2024-03-25 at 00 42 24" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/b5f0feca-217a-49b2-9e1b-72b39a6987e1">
 
-## Reply to other posts
-<img width="1102" alt="Screenshot 2024-03-25 at 00 07 46" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/41c8fa0f-9c96-477b-80be-ec4422429978">
-<img width="1147" alt="Screenshot 2024-03-25 at 00 08 18" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/3cdd08a0-612b-4c48-8101-ff38d8ea7ca3">
+## Create a Post to Share with Others
+<img width="1040" alt="Screenshot 2024-03-25 at 00 45 03" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/8bf41fb7-053d-413d-b918-b5ac1d1b3b53">
+<img width="1040" alt="Screenshot 2024-03-25 at 00 45 28" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/7611dba9-610f-40af-bce1-bf11a7c5ea0f">
 
-## Interact with other posts using the Like/Dislike Button
-<img width="1083" alt="Screenshot 2024-03-25 at 00 19 47" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/262401ec-a624-4177-95fa-7ac8227d1396">
-<img width="1207" alt="Screenshot 2024-03-25 at 00 20 03" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/743ec548-2206-4967-b4ff-95285191b773">
+## Interact with other posts
+<strong>~ Reply to their thread!</strong>
+<img width="1025" alt="Screenshot 2024-03-25 at 00 51 18" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/53f842a6-5e8a-47a8-ab68-fba2ea58d877">
+<strong>~ Like their post!</strong> 
+<img width="1025" alt="Screenshot 2024-03-25 at 00 51 55" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ef1a0508-eb64-40cb-8ee8-520c2bfbb224">
 
 
+
+## Sources
 
 https://flask-pymongo.readthedocs.io/en/latest/
 
@@ -49,3 +55,5 @@ https://www.fullstackpython.com/flask-templating-render-template-examples.html
 https://www.geeksforgeeks.org/python-os-environ-object/
 
 https://www.freecodecamp.org/news/how-to-use-fetch-api/
+
+
