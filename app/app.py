@@ -1,6 +1,7 @@
 from flask import Flask, send_from_directory, make_response, render_template,request, redirect, url_for, session
 from flask_pymongo import PyMongo
 
+
 import os
 import bcrypt
 <<<<<<< Updated upstream
