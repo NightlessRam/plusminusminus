@@ -7,7 +7,7 @@ Group members:
 
 1. "ThisIsDiff" 
 2. "gittoit"
-3. "ChrisChen1771"    Ubit: ychen379
+3. Github Username: "ChrisChen1771"      Ubit: ychen379
 4. "xXColinWongXx"
 5. "NightlessRam"
 
