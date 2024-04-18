@@ -19,6 +19,11 @@ h1 {
     cursor: pointer;
 }
 
+.post-comment-btn:hover{
+    background-color: rgb(46, 145, 120);
+    color: white;
+}
+
 .register-btn{
     border-radius: 5px;
     background-color: rgb(8, 71, 55);
@@ -27,6 +32,11 @@ h1 {
     font-weight: bold;
     width: 100px;
     cursor: pointer;
+}
+
+.register-btn:hover{
+    background-color: rgb(27, 121, 97);
+    color: white;
 }
 
 .login-btn{
@@ -39,6 +49,11 @@ h1 {
     cursor: pointer;
 }
 
+.login-btn:hover{
+    background-color: rgb(27, 121, 97);
+    color: white;
+}
+
 .logout-btn {
     border-radius: 5px;
     background-color: #f44336;
@@ -48,6 +63,41 @@ h1 {
     font-weight: bold;
     cursor: pointer;
 }
+
+.logout-btn:hover {
+    background-color: #e47e77;
+    color: white;
+}
+
+.like-btn {
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.like-btn:hover {
+    color: rgb(162, 238, 162);
+}
+
+.dislike-btn {
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.dislike-btn:hover {
+    color: red;
+}
+
+.interaction-sidebyside {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
 
 
 .big-container{
