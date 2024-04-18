@@ -10,7 +10,7 @@ import bleach
 import hashlib
 import secrets
 import pytz
-
+from auth import validate_password
 
 
 
@@ -50,7 +50,9 @@ def register():
     password = request.form['password']
     password2 = request.form['password2']
 
-
+    if validate_password(password) == False:
+        return 'Password is invalid', 400
+    
     if password != password2:
         return 'Passwords do not match', 400
 
