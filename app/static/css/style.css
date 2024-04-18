@@ -1,16 +1,107 @@
 body {
     font-family: 'Roboto', sans-serif;
 
-
-    background-color: pink;
+    background-color: rgb(201, 191, 105);
     text-align: center;
 }
 
 h1 {
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
-button {
+
+.post-comment-btn{
+    background-color: rgb(8, 71, 55);
+    color: white;
+    border-radius: 5px;
     padding: 10px 20px;
     margin-top: 20px;
+    cursor: pointer;
+}
+
+.register-btn{
+    border-radius: 5px;
+    background-color: rgb(8, 71, 55);
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    width: 100px;
+    cursor: pointer;
+}
+
+.login-btn{
+    border-radius: 5px;
+    background-color: rgb(8, 71, 55);
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    width: 100px;
+    cursor: pointer;
+}
+
+.logout-btn {
+    border-radius: 5px;
+    background-color: #f44336;
+    color: white;
+    width: 100px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.big-container{
+    display: flex;
+    justify-content: space-around;
+    height: 70%;
+
+}
+
+.chat-textbox{
+    padding: 10px 30px;
+    margin-top: 3px;
+    border-radius: 7px;
+}
+
+.post-form-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.Post-Container{
+    width: 60%;
+    align-items: center;
+    top: 1%;
+}
+
+
+.post {
+    background-color: rgb(35, 114, 94);
+    margin-bottom: 20px;
+}
+
+.Authentication-Container{
+    margin-top: 11%;
+    width: 30%;
+} 
+
+
+.Real-registration-form-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.Real-login-form-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.login-textbox{
+    padding: 10px 20px;
+    margin-bottom: 3px;
 }
