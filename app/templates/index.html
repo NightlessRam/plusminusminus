@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
 </head>
 <body>
     <h1> Welcome, {{ username }}!</h1>
@@ -33,19 +35,22 @@
                 {% if post.image %}
                 <img src="{{ url_for('static', filename='image/' + post.image) }}" alt="User uploaded image">
                 {% endif %}
+
+                <div class="interaction-sidebyside">
                 <!-- Like Form -->
                 <form method="POST" action="{{ url_for('interact') }}">
                     <input type="hidden" name="post_id" value="{{ post._id }}" />
                     <input type="hidden" name="interaction" value="Like" />
-                    <button type="submit">Like ({{ post.get('like', 0) }})</button>
+                    <button type="submit" class="like-btn"><i class="fas fa-thumbs-up"></i> ({{ post.get('like', 0) }})</button>
                 </form>
                 
                 <!-- Dislike Form -->
                 <form method="POST" action="{{ url_for('interact') }}">
                     <input type="hidden" name="post_id" value="{{ post._id }}" />
                     <input type="hidden" name="interaction" value="Dislike" />
-                    <button type="submit">Dislike ({{ post.get('dislike', 0) }})</button>
+                    <button type="submit" class="dislike-btn"><i class="fas fa-thumbs-down"></i> ({{ post.get('dislike', 0) }})</button>
                 </form>
+                </div>
             </div>
             {% endfor %}
         </div>
