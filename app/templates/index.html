@@ -13,8 +13,9 @@
 
     <div id="post-form-wrap">
         <h2>Create a Post</h2>
-        <form action="/posts" method="POST" id ="post-form">
+        <form action="/posts" method="POST" id ="post-form" enctype="multipart/form-data">
             <textarea name="content" placeholder="What's on your mind?" required></textarea>
+            <input type="file" name="image" accept="image/jpeg, image/png, image/gif">
             <button type="submit">Post Comment</button>
         </form>
     </div>
@@ -23,8 +24,12 @@
     <div id="posts">
         {% for post in posts %}
         <div class="post">
-            <p><strong>{{ post.username }}:</strong> {{ post.content|safe }}</p>
             <span>Posted on: {{ post.created_at }}</span>
+            <p><strong>{{ post.username }}:</strong> {{ post.content|safe }}</p>
+            <!-- Display image if the post has an associated image -->
+            {% if post.image %}
+            <img src="{{ url_for('static', filename='image/' + post.image) }}" alt="User uploaded image">
+            {% endif %}
             <!-- Like Form -->
             <form method="POST" action="{{ url_for('interact') }}">
                 <input type="hidden" name="post_id" value="{{ post._id }}" />
