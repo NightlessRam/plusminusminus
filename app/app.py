@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, current_app
 from flask_pymongo import PyMongo
 
 import os
@@ -125,6 +125,12 @@ def create_post():
     #retrieve token from cookie
     token = request.cookies.get('auth_token')
     
+    # Handle the image if it exists
+    image = request.files.get('image')
+    image_filename = None
+    if image and allowed_file(image.filename):
+        image_filename = save_image_to_disk(image)
+    
     #init username as 'Guest'
     username = 'Guest'
     if token:
@@ -140,6 +146,7 @@ def create_post():
     post = {
         'username': username,
         'content': content,
+        'image': image_filename,
         'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d'),
         'like': 0,  
         'dislike': 0  
@@ -191,7 +198,37 @@ def interact():
     # return jsonify(success=True)
     return redirect(url_for('index'))
 
+# Helper Merthod for file extensions
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+# Helper Method to save image to disk
+def save_image_to_disk(file):
+    image_dir = os.path.join(current_app.root_path, 'static', 'image')  
+    os.makedirs(image_dir, exist_ok=True)
+
+    # Check the file type (you could also use file.mimetype here)
+    file_type = file.content_type
+
+    # Determine the file extension based on the file type
+    if file_type == 'image/jpeg':
+        extension = '.jpg'
+    elif file_type == 'image/png':
+        extension = '.png'
+    elif file_type == 'image/gif':
+        extension = '.gif'
+    else:
+        raise ValueError('Unsupported file type')
+
+    filename = f'image_{secrets.token_hex(8)}{extension}'
+    image_path = os.path.join(image_dir, filename)
+
+    # Save the file securely
+    file.save(image_path)
+    return filename
 
 
 
