@@ -9,7 +9,36 @@ h1 {
     color: rgb(0, 0, 0);
 }
 
+.smaller-container1{
+    width: 1000px;
+    align-self: center;
+    display:flex;
+    flex-direction: column;
+}
 
+#posts{
+    height: 300px;
+    
+    overflow-y: scroll;
+}
+#posts::-webkit-scrollbar{
+    width: 12px;
+}
+#posts::-webkit-scrollbar-track { 
+    background: #f1f1f1; 
+} 
+
+#posts::-webkit-scrollbar-thumb { 
+    background: #888; 
+} 
+
+#posts::-webkit-scrollbar-thumb:hover { 
+    background: #555; 
+} 
+
+#posts::-webkit-scrollbar-button { 
+    display: none; 
+} 
 .post-comment-btn{
     background-color: rgb(8, 71, 55);
     color: white;
@@ -121,7 +150,7 @@ h1 {
 
 .Post-Container{
     width: 60%;
-    align-items: center;
+    align-self: center;
     top: 1%;
 }
 

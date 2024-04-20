@@ -15,51 +15,53 @@
 
 
 <div class="big-container">
-    <div class="Post-Container">
+        
+    <div class = "smaller-container1">
+        <!-- Posts Section -->
+        Posts below
+            <div id="posts">
+                
+                {% for post in posts %}
+                <div class="post">
+                    <span>Posted on: {{ post.created_at }}</span>
+                    <p><strong>{{ post.username }}:</strong> {{ post.content|safe }}</p>
+                    <!-- Display image if the post has an associated image -->
+                    {% if post.image %}
+                    <img src="{{ url_for('static', filename='image/' + post.image) }}" alt="User uploaded image">
+                    {% endif %}
+
+                    <div class="interaction-sidebyside">
+                    <!-- Like Form -->
+                    <form method="POST" action="{{ url_for('interact') }}">
+                        <input type="hidden" name="post_id" value="{{ post._id }}" />
+                        <input type="hidden" name="interaction" value="like" />
+                        <button type="submit" class="like-btn"><i class="fas fa-thumbs-up"></i> ({{ post.get('like', 0) }})</button>
+                    </form>
+                    
+                    <!-- Dislike Form -->
+                    <form method="POST" action="{{ url_for('interact') }}">
+                        <input type="hidden" name="post_id" value="{{ post._id }}" />
+                        <input type="hidden" name="interaction" value="dislike" />
+                        <button type="submit" class="dislike-btn"><i class="fas fa-thumbs-down"></i> ({{ post.get('dislike', 0) }})</button>
+                    </form>
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+            <div class="Post-Container">
         
             <h2>Create a Post</h2>
             <div class="post-form-wrap">
-            <form action="/posts" method="POST" id ="post-form" enctype="multipart/form-data">
+                <form action="/posts" method="POST" id ="post-form" enctype="multipart/form-data">
                 <textarea name="content" class="chat-textbox" placeholder="What's on your mind?" required></textarea>
                 <input type="file" name="image" accept="image/jpeg, image/png, image/gif">
                 <button type="submit" class="post-comment-btn">Post Comment</button>
 
-            </form>
-        </div>
-    
-        <!-- Posts Section -->
-        <div id="posts">
-            {% for post in posts %}
-            <div class="post">
-                <span>Posted on: {{ post.created_at }}</span>
-                <p><strong>{{ post.username }}:</strong> {{ post.content|safe }}</p>
-                <!-- Display image if the post has an associated image -->
-                {% if post.image %}
-                <img src="{{ url_for('static', filename='image/' + post.image) }}" alt="User uploaded image">
-                {% endif %}
-
-                <div class="interaction-sidebyside">
-                <!-- Like Form -->
-                <form method="POST" action="{{ url_for('interact') }}">
-                    <input type="hidden" name="post_id" value="{{ post._id }}" />
-                    <input type="hidden" name="interaction" value="like" />
-                    <button type="submit" class="like-btn"><i class="fas fa-thumbs-up"></i> ({{ post.get('like', 0) }})</button>
                 </form>
-                
-                <!-- Dislike Form -->
-                <form method="POST" action="{{ url_for('interact') }}">
-                    <input type="hidden" name="post_id" value="{{ post._id }}" />
-                    <input type="hidden" name="interaction" value="dislike" />
-                    <button type="submit" class="dislike-btn"><i class="fas fa-thumbs-down"></i> ({{ post.get('dislike', 0) }})</button>
-                </form>
-                </div>
             </div>
-            {% endfor %}
         </div>
-
     </div>
-
-
 
     <div class="Authentication-Container">
         <div id="Fake-registration-form-wrap">
