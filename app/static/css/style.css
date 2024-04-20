@@ -1,16 +1,157 @@
 body {
     font-family: 'Roboto', sans-serif;
 
-
-    background-color: pink;
+    background-color: rgb(201, 191, 105);
     text-align: center;
 }
 
 h1 {
+    color: rgb(0, 0, 0);
+}
+
+
+.post-comment-btn{
+    background-color: rgb(8, 71, 55);
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.post-comment-btn:hover{
+    background-color: rgb(46, 145, 120);
     color: white;
 }
 
-button {
+.register-btn{
+    border-radius: 5px;
+    background-color: rgb(8, 71, 55);
+    color: white;
     padding: 10px 20px;
-    margin-top: 20px;
+    font-weight: bold;
+    width: 100px;
+    cursor: pointer;
+}
+
+.register-btn:hover{
+    background-color: rgb(27, 121, 97);
+    color: white;
+}
+
+.login-btn{
+    border-radius: 5px;
+    background-color: rgb(8, 71, 55);
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    width: 100px;
+    cursor: pointer;
+}
+
+.login-btn:hover{
+    background-color: rgb(27, 121, 97);
+    color: white;
+}
+
+.logout-btn {
+    border-radius: 5px;
+    background-color: #f44336;
+    color: white;
+    width: 100px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #e47e77;
+    color: white;
+}
+
+.like-btn {
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.like-btn:hover {
+    color: rgb(162, 238, 162);
+}
+
+.dislike-btn {
+    font-size: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.dislike-btn:hover {
+    color: red;
+}
+
+.interaction-sidebyside {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+
+
+.big-container{
+    display: flex;
+    justify-content: space-around;
+    height: 70%;
+
+}
+
+.chat-textbox{
+    padding: 10px 30px;
+    margin-top: 3px;
+    border-radius: 7px;
+}
+
+.post-form-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.Post-Container{
+    width: 60%;
+    align-items: center;
+    top: 1%;
+}
+
+
+.post {
+    background-color: rgb(35, 114, 94);
+    margin-bottom: 20px;
+}
+
+.Authentication-Container{
+    margin-top: 11%;
+    width: 30%;
+} 
+
+
+.Real-registration-form-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.Real-login-form-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.login-textbox{
+    padding: 10px 20px;
+    margin-bottom: 3px;
 }

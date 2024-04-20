@@ -4,68 +4,87 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
 </head>
 <body>
     <h1> Welcome, {{ username }}!</h1>
-    <button id="toggleButton">put image on screen</button>
+    <button id="toggleButton">Put image on screen</button>
     <img id="toggleImage" src="static/image/objonecam.jpg" alt="Test Immage" style="max-width: 100%; height: auto;">
 
 
-    <div id="post-form-wrap">
-        <h2>Create a Post</h2>
-        <form action="/posts" method="POST" id ="post-form">
-            <textarea name="content" placeholder="What's on your mind?" required></textarea>
-            <button type="submit">Post Comment</button>
-        </form>
-    </div>
-   
-    <!-- Posts Section -->
-    <div id="posts">
-        {% for post in posts %}
-        <div class="post">
-            <p><strong>{{ post.username }}:</strong> {{ post.content|safe }}</p>
-            <span>Posted on: {{ post.created_at }}</span>
-            <!-- Like Form -->
-            <form method="POST" action="{{ url_for('interact') }}">
-                <input type="hidden" name="post_id" value="{{ post._id }}" />
-                <input type="hidden" name="interaction" value="like" />
-                <button type="submit">Like ({{ post.get('like', 0) }})</button>
-            </form>
-            
-            <!-- Dislike Form -->
-            <form method="POST" action="{{ url_for('interact') }}">
-                <input type="hidden" name="post_id" value="{{ post._id }}" />
-                <input type="hidden" name="interaction" value="dislike" />
-                <button type="submit">Dislike ({{ post.get('dislike', 0) }})</button>
+
+<div class="big-container">
+    <div class="Post-Container">
+        
+            <h2>Create a Post</h2>
+            <div class="post-form-wrap">
+            <form action="/posts" method="POST" id ="post-form" enctype="multipart/form-data">
+                <textarea name="content" class="chat-textbox" placeholder="What's on your mind?" required></textarea>
+                <input type="file" name="image" accept="image/jpeg, image/png, image/gif">
+                <button type="submit" class="post-comment-btn">Post Comment</button>
+
             </form>
         </div>
-        {% endfor %}
+    
+        <!-- Posts Section -->
+        <div id="posts">
+            {% for post in posts %}
+            <div class="post">
+                <span>Posted on: {{ post.created_at }}</span>
+                <p><strong>{{ post.username }}:</strong> {{ post.content|safe }}</p>
+                <!-- Display image if the post has an associated image -->
+                {% if post.image %}
+                <img src="{{ url_for('static', filename='image/' + post.image) }}" alt="User uploaded image">
+                {% endif %}
+
+                <div class="interaction-sidebyside">
+                <!-- Like Form -->
+                <form method="POST" action="{{ url_for('interact') }}">
+                    <input type="hidden" name="post_id" value="{{ post._id }}" />
+                    <input type="hidden" name="interaction" value="Like" />
+                    <button type="submit" class="like-btn"><i class="fas fa-thumbs-up"></i> ({{ post.get('like', 0) }})</button>
+                </form>
+                
+                <!-- Dislike Form -->
+                <form method="POST" action="{{ url_for('interact') }}">
+                    <input type="hidden" name="post_id" value="{{ post._id }}" />
+                    <input type="hidden" name="interaction" value="Dislike" />
+                    <button type="submit" class="dislike-btn"><i class="fas fa-thumbs-down"></i> ({{ post.get('dislike', 0) }})</button>
+                </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
     </div>
 
 
 
+    <div class="Authentication-Container">
+        <div id="Fake-registration-form-wrap">
+            <form action="/register" method="post" id="registration-form" class="Real-registration-form-wrap">
+                <input type="text" name="username" class="login-textbox" placeholder="Enter a username" required>
+                <input type="password" name="password" class="login-textbox" placeholder="Enter a new password" required>
+                <input type="password" name="password2" class="login-textbox" placeholder="Repeat password" required>
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+        </div>
 
+        <div id="Fake-login-form-wrap"> 
+            <form action="/login" method="post" id="login-form" class="Real-login-form-wrap">
+                
+                <input type="text" name="username" class="login-textbox" placeholder="Username" required>
+                <input type="password" name="password" class="login-textbox" placeholder="Password" required>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
 
-    <div id="registration-form-wrap">
-        <form action="/register" method="post" id="registration-form">
-            <input type="text" name="username" placeholder="Enter a username" required>
-            <input type="password" name="password" placeholder="Enter a new password" required>
-            <input type="password" name="password2" placeholder="Repeat password" required>
-            <button type="submit">Register</button>
+        <form id="logout-form" action="/logout" method="post">
+            <button type="submit" id="logout-button" class="logout-btn">Logout</button>
         </form>
     </div>
-
-    <div id="login-form-wrap"> 
-        <form action="/login" method="post" id="login-form">
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-    </div>
-
-    <form id="logout-form" action="/logout" method="post">
-        <button type="submit" id="logout-button">Logout</button>
-    </form>
+</div>
 
     <script src="static/js/script.js"></script>
 </body>
