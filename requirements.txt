@@ -1,5 +1,5 @@
 Flask-PyMongo==2.3.0
-
+flask-socketio
 bcrypt
 bleach
 pytz

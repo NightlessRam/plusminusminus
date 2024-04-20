@@ -19,7 +19,7 @@ h1 {
 #posts{
     height: 300px;
     
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 #posts::-webkit-scrollbar{
     width: 12px;
