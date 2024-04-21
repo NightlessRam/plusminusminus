@@ -5,6 +5,7 @@
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="static/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
 </head>
 </head>
 <body>
@@ -21,6 +22,10 @@
             <form action="/posts" method="POST" id ="post-form" enctype="multipart/form-data">
                 <textarea name="content" class="chat-textbox" placeholder="What's on your mind?" required></textarea>
                 <input type="file" name="image" accept="image/jpeg, image/png, image/gif">
+                <select name="messageType" id="message-type-selector">
+                    <option value="post">Post</option>
+                    <option value="chat">Chat</option>
+                </select>
                 <button type="submit" class="post-comment-btn">Post Comment</button>
             </form>
         </div>
@@ -29,13 +34,29 @@
         <div id="posts">
             {% for post in posts %}
             <div class="post">
-                <span>Posted on: {{ post.created_at }}</span>
-                <p><strong>{{ post.username }}:</strong> {{ post.content|safe }}</p>
+                <span>
+                    {% if post.messageType == 'dm' %}
+                        Sent on: {{ post.created_at }}
+                    {% else %}
+                        Posted on: {{ post.created_at }}
+                    {% endif %}
+                </span>
+                <p>
+                    <strong>
+                        {% if post.messageType == 'dm' %}
+                            {{ post.sender }} (DM {{ post.receiver if post.receiver != username else 'you' }})
+                        {% else %}
+                            {{ post.username }}
+                        {% endif %}
+                    </strong>:
+                    {{ post.content }}
+                </p>
                 <!-- Display image if the post has an associated image -->
                 {% if post.image %}
                 <img src="{{ url_for('static', filename='image/' + post.image) }}" alt="User uploaded image">
                 {% endif %}
 
+                {% if post.messageType == 'post' %}
                 <div class="interaction-sidebyside">
                 <!-- Like Form -->
                 <form method="POST" action="{{ url_for('interact') }}">
@@ -51,13 +72,14 @@
                     <button type="submit" class="dislike-btn"><i class="fas fa-thumbs-down"></i> ({{ post.get('dislike', 0) }})</button>
                 </form>
                 </div>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
 
     </div>
 
-
+    <ul id="user-list"></ul>
 
     <div class="Authentication-Container">
         <div id="Fake-registration-form-wrap">
