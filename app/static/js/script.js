@@ -1,11 +1,124 @@
 document.addEventListener('DOMContentLoaded', function() {
+    var socket = io();
+
+
     var loginForm = document.getElementById('login-form');
     var registrationForm = document.getElementById('registration-form');
     var postForm = document.getElementById('post-form');
     var logoutButton = document.getElementById('logout-button');
 
+
+
+    // User List and DM setup
+    socket.on('update user list', function(users) {
+        updateUserList(users);
+    });
+
+    socket.on('receive dm', function(data) {
+        var messagesDiv = document.getElementById('posts');
+        var messageDiv = document.createElement('div');
+        messageDiv.classList.add('post');  // Ensure this class matches your posts for consistent styling
+    
+        // Format the message date
+        var formattedDate = new Date().toLocaleDateString("en-US", {
+            year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        });
+    
+        // Display differently based on whether the message is to self or to the other user
+        var displayContent = `<span>Sent on: ${formattedDate}</span>
+            <p><strong>${data.sender}${data.to_self ? ' (DM ' + data.receiver + ')' : ' (DM you)'}</strong>: ${data.content}</p>`;
+    
+        messageDiv.innerHTML = displayContent;
+        messagesDiv.prepend(messageDiv); // Adds the new DM to the top of the list
+    });
+
+    socket.on('connect', () => {
+        console.log('Reconnected to the server');
+        // Possibly emit an event to re-verify the user or request the current user list again.
+        socket.emit('request_user_list');
+    });
+
+    function updateUserList(users) {
+        var userList = document.getElementById('user-list');
+        userList.innerHTML = ''; // Clear existing user list entries
+        users.forEach(user => {
+            let userItem = document.createElement('li');
+            userItem.textContent = user;
+            let dmButton = document.createElement('button');
+            dmButton.textContent = 'DM';
+            dmButton.onclick = function() {
+                let message = prompt(`Send DM to ${user}:`);
+                if (message) {
+                    socket.emit('send dm', {receiver: user, message: message});
+                }
+            };
+            userItem.appendChild(dmButton);
+            userList.appendChild(userItem);
+        });
+    }
+
+
+
     //Helper function to handle form submissions w/ fetch request
     function handleFormSubmission(form, url, redirectOnSuccess) {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var messageType = document.getElementById('message-type-selector').value;
+            var message = document.querySelector('.chat-textbox').value.trim();
+    
+            if (messageType === 'chat' || messageType === 'dm') {
+                socket.emit('send chat message', { content: message, messageType: messageType });
+                document.querySelector('.chat-textbox').value = '';  // Clear the chat input field
+            } else {
+                var formData = new FormData(form);
+                formData.append('messageType', messageType);
+    
+                fetch(url, {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Post successfully created');
+                        if (redirectOnSuccess) window.location.href = redirectOnSuccess;
+                    } else {
+                        console.error('Failed to create post:', data.message);
+                    }
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+    }
+    
+    function formatEasternTime(date) {
+        return date.toLocaleString('en-US', {
+            timeZone: 'America/New_York',
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit', 
+            hour12: true
+        });
+    }
+    
+    socket.on('new content', function(data) {
+        var postsDiv = document.getElementById('posts');
+        var postDiv = document.createElement('div');
+        postDiv.className = 'post';
+        var displayDate = data.created_at ? data.created_at : formatEasternTime(new Date());
+        postDiv.innerHTML = `<span>Posted on: ${displayDate}</span>
+            <p><strong>${data.username}:</strong> ${data.content}</p>`;
+    
+        if (data.image) {
+            postDiv.innerHTML += `<img src="static/image/${data.image}" alt="User uploaded image">`;
+        }
+        postsDiv.appendChild(postDiv); // Adds the new content to the top of the list
+    });
+    function RegisterLogin_FormSubmission(form, url, redirectOnSuccess) {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
             var formData = new FormData(form);
@@ -23,7 +136,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
     //Toggle image display
     var toggleButton = document.getElementById('toggleButton');
     var toggleImage = document.getElementById('toggleImage');
@@ -42,10 +154,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //handle form submissions
     if (loginForm) {
-        handleFormSubmission(loginForm, '/login', '/'); // Redirect to '/' instead of '/home'
+        RegisterLogin_FormSubmission(loginForm, '/login', '/'); // Redirect to '/' instead of '/home'
     }
     if (registrationForm) {
-        handleFormSubmission(registrationForm, '/register', '/'); // Redirect to '/' instead of '/home'
+        RegisterLogin_FormSubmission(registrationForm, '/register', '/'); // Redirect to '/' instead of '/home'
     }
     if (postForm) {
         handleFormSubmission(postForm, '/posts', '/'); // Redirect to '/' instead of '/home' after posting
