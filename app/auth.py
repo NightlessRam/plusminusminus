@@ -65,9 +65,9 @@ def validate_password(password: str):
             upperExist = characters.isupper()
         if characters.isnumeric():
             num = characters.isnumeric()
-        if characters in  {'!', '@', '#', '$', '%', '^', '&', '(', ')', '-', '_', '='}:
+        if characters in  {'!', '@', '#', '$', '%', '^', '&', '(', ')', '-', '_', '=', '.'}:
             specialChar = True
-        if not ((characters.isalnum()) or (characters in {'!', '@', '#', '$', '%', '^', '&', '(', ')', '-', '_', '='})):
+        if not ((characters.isalnum()) or (characters in {'!', '@', '#', '$', '%', '^', '&', '(', ')', '-', '_', '=', '.'})):
             invalid = False
     if not lowerExist:
         return False
