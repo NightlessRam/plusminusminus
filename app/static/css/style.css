@@ -9,6 +9,10 @@ h1 {
     color: rgb(0, 0, 0);
 }
 
+img {
+    width: 40%;
+}
+
 
 .post-comment-btn{
     background-color: rgb(8, 71, 55);
