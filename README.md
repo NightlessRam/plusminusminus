@@ -1,4 +1,4 @@
-# CSE 312 Web Project
+# CSE 312 Web Project Link :  [https://200-not-ok.me](https://200-not-ok.me)
 ### Group name: 200 OK
 ### Group members:
 1. "ThisIsDiff" ubit: chongzep
@@ -8,41 +8,46 @@
 5. "NightlessRam" ubit: guoweixu
 
 # Overview 
-We are designing a social media web app where users can upload food reviews and connect with one another to show each other the new restaurants, bars, cafes, or food courts they discover. Users can currently post and interact with other posts, but we will have more interactive features on the way!
+We are designing the backend of a social media web app where users can upload food reviews and connect with one another to show each other the new restaurants, bars, cafes, or food courts they discover. Users can currently post and interact with other posts, but we will have more interactive features on the way!
 
 #  WalkThrough 
 [1) Register an Account](#register-an-account-with-us)
 
 [2) Create a Post](#create-a-post-to-share-with-others)
 
-[3) Interact with other Posts](#interact-with-other-posts)
+[3) Interact with other Posts](#create-a-post-to-share-with-others)
+
+[4) Send a Direct Message to other Users](#sending-a-dm)
+
 
 ## Preview As a Guest & Click the Image Button
- <img width="1251" alt="Screenshot 2024-03-24 at 23 34 55" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/1de8c2e2-605d-4364-b1e1-26346f320958">
- <img width="1344" alt="Screenshot 2024-03-24 at 23 39 12" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ef8df402-27ed-43b5-aab3-408fdb18b9cb">
+ <img width="1404" alt="Screenshot 2024-04-22 at 08 17 27" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/032070f3-7c24-420d-8233-71b252c40c32">
+<img width="1417" alt="Screenshot 2024-04-22 at 08 18 19" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/681701e1-4bb3-4b9d-ad62-19a5560cd805">
 
 ## Register an Account With Us
-<img width="1040" alt="Screenshot 2024-03-25 at 00 40 51" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/b7a17797-a84c-4e36-8a7f-5a7cc0bd6115">
+<img width="1420" alt="Screenshot 2024-04-22 at 08 19 16" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/0f8f34b2-1fe6-4e22-9ea2-fc162709ff2d">
  <strong>Make Sure to remember your PASSWORD, as we have no support for password recovery right now! </strong> 
-<img width="1330" alt="Screenshot 2024-03-25 at 00 41 22" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/4bd35205-e475-453a-898c-e7fda71c7a75">
 
 ## Login with the Credentials 
-<img width="1040" alt="Screenshot 2024-03-25 at 01 05 15" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/f3eec6a4-209a-42e1-a0ab-44c9caafd7fd">
+<img width="1418" alt="Screenshot 2024-04-22 at 08 21 03" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/982ff480-e143-446d-9bb4-d63ba4d81281">
 
-## Once logged in, the username registered with your account is displayed at the top in white
-<img width="1040" alt="Screenshot 2024-03-25 at 00 42 24" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/b5f0feca-217a-49b2-9e1b-72b39a6987e1">
+## Once logged in, the username registered with your account is displayed at the top 
+<img width="1423" alt="Screenshot 2024-04-22 at 08 22 09" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/4ea195b2-04ba-4614-826d-3800eb29d988">
 
 ## Create a Post to Share with Others
-<img width="1040" alt="Screenshot 2024-03-25 at 00 45 03" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/8bf41fb7-053d-413d-b918-b5ac1d1b3b53">
-<img width="1040" alt="Screenshot 2024-03-25 at 00 45 28" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/7611dba9-610f-40af-bce1-bf11a7c5ea0f">
-
-## Interact with other posts
-<strong>~ Reply to their thread!</strong>
-<img width="1025" alt="Screenshot 2024-03-25 at 00 51 18" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/53f842a6-5e8a-47a8-ab68-fba2ea58d877">
-<strong>~ Like their post!</strong> 
-<img width="1025" alt="Screenshot 2024-03-25 at 00 51 55" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ef1a0508-eb64-40cb-8ee8-520c2bfbb224">
+<strong>Write your message! (This gets sent using polling)</strong> 
+<img width="1412" alt="Screenshot 2024-04-22 at 08 26 28" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/9dec33e1-bf78-4fe9-9837-e9cc7d4adcb8">
+<strong>Scroll to the bottom to find your latest post!</strong>
+<img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/287eaa5f-9972-429f-8a57-57336f6a60e3">
 
 
+## Sending a DM
+<strong>Find a user to message from the user list on the right!</strong>
+<img width="1401" alt="Screenshot 2024-04-22 at 08 23 00" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/6e53db2b-09ac-4ebc-ac0c-7c04fae35e9c">
+<strong>Write your message!</strong> 
+<img width="1419" alt="Screenshot 2024-04-22 at 08 23 35" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/d177121f-9a86-4100-aab3-96faaa08f649">
+<strong>Then it gets sent over using WebSockets!</strong> 
+<img width="1423" alt="Screenshot 2024-04-22 at 08 24 02" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ab82100b-0de6-4097-848c-8887f18b8f8a">
 
 ## Sources
 
