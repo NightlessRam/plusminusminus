@@ -46,7 +46,7 @@ We are designing the backend of a social media web app where users can upload fo
 <strong>Just Like the Homework 4 LO3 and AO1, where user will disappear when closing browser/logout</strong>
 
 ## Sending a DM
-<strong>Find a user to message from the user list on the bottom-right!</strong>
+<strong>Find a user to message from the user list on the bottom-right! (Guest won't be able to see the DM button!)</strong>
 <img width="1401" alt="Screenshot 2024-04-22 at 08 23 00" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/6e53db2b-09ac-4ebc-ac0c-7c04fae35e9c">
 <strong>Write your message!</strong> 
 <img width="1419" alt="Screenshot 2024-04-22 at 08 23 35" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/d177121f-9a86-4100-aab3-96faaa08f649">
