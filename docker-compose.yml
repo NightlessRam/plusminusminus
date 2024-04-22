@@ -5,7 +5,7 @@ services:
 
       
       ports:
-        - '27017:27017'
+        - '27017:27017' # REMOVE FOR EDEPLOYMENT SECIRTIY OR SAOMTIN
       
   app:
     build: .
