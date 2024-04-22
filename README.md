@@ -49,7 +49,7 @@ We are designing the backend of a social media web app where users can upload fo
 <img width="1401" alt="Screenshot 2024-04-22 at 08 23 00" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/6e53db2b-09ac-4ebc-ac0c-7c04fae35e9c">
 <strong>Write your message!</strong> 
 <img width="1419" alt="Screenshot 2024-04-22 at 08 23 35" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/d177121f-9a86-4100-aab3-96faaa08f649">
-<strong>Then it gets sent over using WebSockets!</strong> 
+<strong>Then it gets sent over using WebSockets, and other users won't be able to see your direct message!</strong> 
 <img width="1423" alt="Screenshot 2024-04-22 at 08 24 02" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ab82100b-0de6-4097-848c-8887f18b8f8a">
 
 ## Sources
