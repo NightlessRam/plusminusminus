@@ -17,6 +17,8 @@ We are designing a social media web app where users can upload food reviews and 
 
 [3) Interact with other Posts](#interact-with-other-posts)
 
+                        --> 200okie.me <--
+                        link to our website
 ## Preview As a Guest & Click the Image Button
  <img width="1251" alt="Screenshot 2024-03-24 at 23 34 55" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/1de8c2e2-605d-4364-b1e1-26346f320958">
  <img width="1344" alt="Screenshot 2024-03-24 at 23 39 12" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ef8df402-27ed-43b5-aab3-408fdb18b9cb">
