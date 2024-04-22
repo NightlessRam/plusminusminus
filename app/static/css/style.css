@@ -9,6 +9,37 @@ h1 {
     color: rgb(0, 0, 0);
 }
 
+.smaller-container1{
+    width: 1200px;
+    align-self: center;
+    display:flex;
+    flex-direction: column;
+}
+
+#posts{
+    height: 50%;
+    
+    overflow-y: auto;
+}
+#posts::-webkit-scrollbar{
+    width: 12px;
+}
+#posts::-webkit-scrollbar-track { 
+    background: #f1f1f1; 
+} 
+
+#posts::-webkit-scrollbar-thumb { 
+    background: #888; 
+} 
+
+#posts::-webkit-scrollbar-thumb:hover { 
+    background: #555; 
+} 
+
+#posts::-webkit-scrollbar-button { 
+    display: none; 
+} 
+
 img {
     max-width: 100%;
 }
