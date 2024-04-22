@@ -1,7 +1,7 @@
 body {
-    font-family: 'Courier New', sans-serif;
+    font-family: 'Roboto', sans-serif;
 
-    background-color: pink;
+    background-color: rgb(201, 191, 105);
     text-align: center;
 }
 
@@ -9,42 +9,11 @@ h1 {
     color: rgb(0, 0, 0);
 }
 
-.smaller-container1{
-    width: 1200px;
-    align-self: center;
-    display:flex;
-    flex-direction: column;
-}
-
-#posts{
-    height: 500px;
-    
-    overflow-y: auto;
-}
-#posts::-webkit-scrollbar{
-    width: 12px;
-}
-#posts::-webkit-scrollbar-track { 
-    background: #f1f1f1; 
-} 
-
-#posts::-webkit-scrollbar-thumb { 
-    background: #888; 
-} 
-
-#posts::-webkit-scrollbar-thumb:hover { 
-    background: #555; 
-} 
-
-#posts::-webkit-scrollbar-button { 
-    display: none; 
-} 
-
 img {
     max-width: 100%;
 }
 .post-comment-btn{
-    background-color: rgb(243, 70, 205);
+    background-color: rgb(8, 71, 55);
     color: white;
     border-radius: 5px;
     padding: 10px 20px;
@@ -53,7 +22,7 @@ img {
 }
 
 .post-comment-btn:hover{
-    background-color: rgb(157, 6, 134);
+    background-color: rgb(46, 145, 120);
     color: white;
 }
 
@@ -111,7 +80,7 @@ img {
 }
 
 .like-btn:hover {
-    color: rgb(255, 255, 255);
+    color: rgb(162, 238, 162);
 }
 
 .dislike-btn {
@@ -131,13 +100,10 @@ img {
     margin-top: 10px;
 }
 
-.bigger-container{
-    display: flex;
-}
+
 
 .big-container{
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
     height: 70%;
 
@@ -157,13 +123,13 @@ img {
 
 .Post-Container{
     width: 60%;
-    align-self: center;
+    align-items: center;
     top: 1%;
 }
 
 
 .post {
-    background-color: rgb(224, 124, 181);
+    background-color: rgb(35, 114, 94);
     margin-bottom: 20px;
 }
 
