@@ -14,7 +14,6 @@ import pytz
 
 from auth import validate_password
 
-#WORKING 200okie.me via digitalocean finally
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/myDatabase')
@@ -34,20 +33,6 @@ def apply_caching(response):
 @app.route('/')
 
 def index():
-    postUpdater = mongo.db.posts.find({})
-    for post in postUpdater:
-        print(post)
-        post_id = str(post["_id"])
-        post_interactions = mongo.db.interactions.find({"post_id": post_id})
-        likes = 0
-        dislikes = 0
-        for interactions in post_interactions:
-            if interactions["interaction"] == "Like":
-                likes+=1
-            elif interactions["interaction"] == "Dislike":
-                dislikes +=1
-        mongo.db.posts.update_one({"_id": post["_id"]},{"$set": {'like': likes, "dislike": dislikes}})
-
     username = get_username_from_token(request.cookies.get('auth_token'))
     query = {
         "$or": [
@@ -198,7 +183,7 @@ def handle_chat_message(data):
     post = {
         'username': username,
         'content': data['content'],
-        'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%B %d, %Y at %I:%M:%S %p'),
+        'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d'),
     }
     mongo.db.posts.insert_one(post)
 
@@ -224,28 +209,19 @@ def interact():
     if not mongo.db.interactions.find_one({
         'post_id': post_id,
         'interactor': interactor,
- 
+        'interaction': interaction_type
     }):
         mongo.db.interactions.insert_one({
             'post_id': post_id,
             'interactor': interactor,
             'interaction': interaction_type
         })
-    else:
-        currentInteraction = mongo.db.interactions.find_one({
-            'post_id':post_id,
-            'interactor': interactor
-        })
-        newReaction = interaction_type
-        oldReaction = currentInteraction["interaction"]
-        if oldReaction == newReaction:
-            newReaction = "neutral"
-        
-
-        mongo.db.interactions.update_one({
-            'post_id':post_id,
-            'interactor': interactor,
-        }, {'$set':{'interaction': newReaction}})
+        update_field = 'like' if interaction_type == 'Like' else 'dislike'
+        mongo.db.posts.update_one({'_id': post_id}, {'$inc': {update_field: 1}})
+        if interaction_type == 'Like':
+            mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'like': 1}})
+        elif interaction_type == 'Dislike':
+            mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'dislike': 1}})
 
         return redirect(url_for('index'))
     # This is where you'd return a suitable response to the AJAX request
