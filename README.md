@@ -35,11 +35,17 @@ We are designing the backend of a social media web app where users can upload fo
 <img width="1423" alt="Screenshot 2024-04-22 at 08 22 09" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/4ea195b2-04ba-4614-826d-3800eb29d988">
 
 ## Create a Post to Share with Others
-<strong>Write your message! (This gets sent using polling)</strong> 
+<strong>There's a little drop-down box, click on it, then select post, and write your message!(This gets sent using polling)</strong> 
 <img width="1412" alt="Screenshot 2024-04-22 at 08 26 28" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/9dec33e1-bf78-4fe9-9837-e9cc7d4adcb8">
 <strong>Scroll to the bottom to find your latest post!</strong>
 <img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/287eaa5f-9972-429f-8a57-57336f6a60e3">
 <strong>You can also attach an image(png/jpeg/gif) along with your message!(This gets sent using polling)</strong> 
+<strong>Only post contains like/dislike interactions!</strong>
+<strong>like/dislike interactions are permanent and the user can only like and dislike once!</strong>
+
+## Chat With Other Using Live Chat
+<strong>There's a little drop-down box, click on it, then select chat, and write your message!(This gets sent using websocket, and this is only for live global chat, you can't send any images/gif)</strong> 
+<strong>Every user should be able to see the message!</strong>
 
 ## Userlist
 <strong>Logged in users and connected to websocket will appear on the bottom-right!</strong>
