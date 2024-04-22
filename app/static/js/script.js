@@ -45,15 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
         users.forEach(user => {
             let userItem = document.createElement('li');
             userItem.textContent = user;
-            let dmButton = document.createElement('button');
-            dmButton.textContent = 'DM';
-            dmButton.onclick = function() {
-                let message = prompt(`Send DM to ${user}:`);
-                if (message) {
-                    socket.emit('send dm', {receiver: user, message: message});
-                }
-            };
-            userItem.appendChild(dmButton);
+            const currentUsername = document.body.getAttribute('data-username');
+            if (currentUsername !== 'Guest') {
+                let dmButton = document.createElement('button');
+                dmButton.textContent = 'DM';
+                dmButton.onclick = function() {
+                    let message = prompt(`Send DM to ${user}:`);
+                    if (message) {
+                        socket.emit('send dm', {receiver: user, message: message});
+                    }
+                };
+                userItem.appendChild(dmButton);
+            }
             userList.appendChild(userItem);
         });
     }
