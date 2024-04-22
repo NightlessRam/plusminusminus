@@ -39,6 +39,7 @@ We are designing the backend of a social media web app where users can upload fo
 <img width="1412" alt="Screenshot 2024-04-22 at 08 26 28" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/9dec33e1-bf78-4fe9-9837-e9cc7d4adcb8">
 <strong>Scroll to the bottom to find your latest post!</strong>
 <img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/287eaa5f-9972-429f-8a57-57336f6a60e3">
+<strong>You can also attach an image(png/jpeg/gif) along with your message!(This gets sent using polling)</strong> 
 
 ## Userlist
 <strong>Logged in users and connected to websocket will appear on the bottom-right!</strong>
