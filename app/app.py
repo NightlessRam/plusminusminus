@@ -183,7 +183,7 @@ def handle_chat_message(data):
     post = {
         'username': username,
         'content': data['content'],
-        'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d'),
+        'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%B %d, %Y at %I:%M:%S %p'),
     }
     mongo.db.posts.insert_one(post)
 
