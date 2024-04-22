@@ -13,7 +13,7 @@ services:
       - MONGO_URI=mongodb://mongo:27017/myDatabase
       - WAIT_HOSTS=mongo:27017
     ports:
-      - "8797:5000"
+      - "8080:8080"
   
     volumes:
       - ./app:/usr/src/app
