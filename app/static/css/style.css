@@ -1,7 +1,7 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Courier New', sans-serif;
 
-    background-color: rgb(201, 191, 105);
+    background-color: pink;
     text-align: center;
 }
 
@@ -13,7 +13,7 @@ img {
     max-width: 100%;
 }
 .post-comment-btn{
-    background-color: rgb(8, 71, 55);
+    background-color: rgb(243, 70, 205);
     color: white;
     border-radius: 5px;
     padding: 10px 20px;
@@ -22,7 +22,7 @@ img {
 }
 
 .post-comment-btn:hover{
-    background-color: rgb(46, 145, 120);
+    background-color: rgb(157, 6, 134);
     color: white;
 }
 
@@ -80,7 +80,7 @@ img {
 }
 
 .like-btn:hover {
-    color: rgb(162, 238, 162);
+    color: rgb(255, 255, 255);
 }
 
 .dislike-btn {
@@ -129,7 +129,7 @@ img {
 
 
 .post {
-    background-color: rgb(35, 114, 94);
+    background-color: rgb(224, 124, 181);
     margin-bottom: 20px;
 }
 

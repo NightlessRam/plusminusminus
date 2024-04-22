@@ -14,6 +14,7 @@ import pytz
 
 from auth import validate_password
 
+#WORKING 200okie.me via digitalocean finally
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/myDatabase')
