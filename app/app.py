@@ -34,6 +34,21 @@ def apply_caching(response):
 @app.route('/')
 
 def index():
+    
+    postUpdater = mongo.db.posts.find({})
+    for post in postUpdater:
+        print(post)
+        post_id = str(post["_id"])
+        post_interactions = mongo.db.interactions.find({"post_id": post_id})
+        likes = 0
+        dislikes = 0
+        for interactions in post_interactions:
+            if interactions["interaction"] == "like":
+                likes+=1
+            elif interactions["interaction"] == "dislike":
+                dislikes +=1
+        mongo.db.posts.update_one({"_id": post["_id"]},{"$set": {'like': likes, "dislike": dislikes}})
+    
     username = get_username_from_token(request.cookies.get('auth_token'))
     query = {
         "$or": [
@@ -195,7 +210,6 @@ def interact():
     interaction_type = request.form.get('interaction')  # "Like" or "Dislike"
     interactor = 'Guest'
     
-    #retrieve token from HttpOnly cookie
     token = request.cookies.get('auth_token')
     
     if token:
@@ -205,26 +219,51 @@ def interact():
         
         if session_record:
             interactor = session_record['username']
-    
-    #makesure a user cant like/dislike more than once
+            
     if not mongo.db.interactions.find_one({
-        'post_id': post_id,
+        'post_id':post_id,
         'interactor': interactor,
-        'interaction': interaction_type
     }):
         mongo.db.interactions.insert_one({
-            'post_id': post_id,
+            'post_id':post_id,
             'interactor': interactor,
             'interaction': interaction_type
         })
-        update_field = 'like' if interaction_type == 'Like' else 'dislike'
-        mongo.db.posts.update_one({'_id': post_id}, {'$inc': {update_field: 1}})
-        if interaction_type == 'Like':
-            mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'like': 1}})
-        elif interaction_type == 'Dislike':
-            mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'dislike': 1}})
+    else:
+        currentInteraction = mongo.db.interactions.find_one({
+            'post_id':post_id,
+            'interactor': interactor
+        })
+        newReaction = interaction_type
+        oldReaction = currentInteraction["interaction"]
+        if oldReaction == newReaction:
+            newReaction = "neutral"
+        
 
-        return redirect(url_for('index'))
+        mongo.db.interactions.update_one({
+            'post_id':post_id,
+            'interactor': interactor,
+        }, {'$set':{'interaction': newReaction}})
+    
+    #makesure a user cant like/dislike more than once
+    # if not mongo.db.interactions.find_one({
+    #     'post_id': post_id,
+    #     'interactor': interactor,
+    #     'interaction': interaction_type
+    # }):
+    #     mongo.db.interactions.insert_one({
+    #         'post_id': post_id,
+    #         'interactor': interactor,
+    #         'interaction': interaction_type
+    #     })
+    #     update_field = 'like' if interaction_type == 'Like' else 'dislike'
+    #     mongo.db.posts.update_one({'_id': post_id}, {'$inc': {update_field: 1}})
+    #     if interaction_type == 'Like':
+    #         mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'like': 1}})
+    #     elif interaction_type == 'Dislike':
+    #         mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'dislike': 1}})
+
+    #     return redirect(url_for('index'))
     # This is where you'd return a suitable response to the AJAX request
     # return jsonify(success=True)
     return redirect(url_for('index'))
