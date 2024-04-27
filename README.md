@@ -44,12 +44,16 @@ We are designing the backend of a social media web app where users can upload fo
 <strong>like/dislike interactions are permanent and the user can only like and dislike once!</strong>
 
 ## Chat With Other Using Live Chat
-<strong>There's a little drop-down box, click on it, then select chat, and write your message!(This gets sent using websocket, and this is only for live global chat, you can't send any images/gif)</strong> 
+<strong>There's a little drop-down box, click on it, then select chat, and write your message!(This gets sent using Websocket, and this is only for live global chat, you can't send any images/gif)</strong> 
+<strong>After writing your message, click the 'Post Comment' button</strong>
 <strong>Every user should be able to see the message!</strong>
+<strong>No interactions for Live Chat, it is just a feature for everybody to communicate publicly!</strong>
+
 
 ## Userlist
-<strong>Logged in users and connected to websocket will appear on the bottom-right!</strong>
+<strong>Logged in users and connected to Websocket will appear on the bottom-right!</strong>
 <strong>Just Like the Homework 4 LO3 and AO1, where user will disappear when closing browser/logout</strong>
+<strong>Try Logging out yourself and see your username disappear from the Userlist</strong>
 
 ## Sending a DM
 <strong>Find a user to message from the user list on the bottom-right! (Guest won't be able to see the DM button!)</strong>
