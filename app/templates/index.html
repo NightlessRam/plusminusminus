@@ -49,7 +49,7 @@
                             {{ post.username }}
                         {% endif %}
                     </strong>:
-                    {{ post.content }}
+                    {{ post.content|safe }}
                 </p>
                 <!-- Display image if the post has an associated image -->
                 {% if post.image %}
