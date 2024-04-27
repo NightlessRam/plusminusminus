@@ -110,7 +110,9 @@ img {
 }
 
 .chat-textbox{
-    padding: 10px 30px;
+    padding: 10px 15px;
+    width: 250px;
+    height: 30px;
     margin-top: 3px;
     border-radius: 7px;
     resize: none;
