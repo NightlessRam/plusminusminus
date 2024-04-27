@@ -179,10 +179,10 @@ def handle_chat_message(data):
         if session_record:
             # If a session is found, retrieve the username from the session
             username = session_record['username']
-    emit('new content', {'content': data['content'], 'username': username}, broadcast=True)
+    emit('new content', {'content': bleach.clean(data['content']), 'username': username}, broadcast=True)
     post = {
         'username': username,
-        'content': data['content'],
+        'content': bleach.clean(data['content']),
         'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%B %d, %Y at %I:%M:%S %p'),
     }
     mongo.db.posts.insert_one(post)
@@ -283,7 +283,7 @@ def handle_disconnect():
 def handle_send_dm(data):
     sender = get_username_from_token(request.cookies.get('auth_token'))
     receiver = data['receiver']
-    message = data['message']
+    message = bleach.clean(data['message'])
     messageType = 'dm'  # Specify the message type as 'dm'
 
     if sender and receiver and receiver in users:
