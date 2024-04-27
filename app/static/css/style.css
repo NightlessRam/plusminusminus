@@ -113,6 +113,7 @@ img {
     padding: 10px 30px;
     margin-top: 3px;
     border-radius: 7px;
+    resize: none;
 }
 
 .post-form-wrap {
