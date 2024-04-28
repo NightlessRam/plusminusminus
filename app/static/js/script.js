@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function() {
         postDiv.className = 'post';
         var displayDate = data.created_at ? data.created_at : formatEasternTime(new Date());
         postDiv.innerHTML = `<span>Posted on: ${displayDate}</span>
-            <p><strong>${data.username}:</strong> ${data.content}</p>`;
+            <p><strong>${data.username}</strong> : ${data.content}</p>`;
     
         if (data.image) {
             postDiv.innerHTML += `<img src="static/image/${data.image}" alt="User uploaded image">`;
