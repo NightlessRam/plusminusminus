@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.image) {
             postDiv.innerHTML += `<img src="static/image/${data.image}" alt="User uploaded image">`;
         }
-        postsDiv.appendChild(postDiv); // Adds the new content to the top of the list
+        // postsDiv.appendChild(postDiv); // Adds the new content to the top of the list
+        postsDiv.insertBefore(postDiv, postsDiv.firstChild);
     });
     function RegisterLogin_FormSubmission(form, url, redirectOnSuccess) {
         form.addEventListener('submit', function(event) {
