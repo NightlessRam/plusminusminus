@@ -40,7 +40,7 @@ def index():
             {"$or": [{"sender": username}, {"receiver": username}]}
         ]
     }
-    posts = list(mongo.db.posts.find(query))
+    posts = list(mongo.db.posts.find(query))[::-1]
     return render_template('index.html', posts=posts, username=username)
 
 @app.route('/register', methods=['POST'])
