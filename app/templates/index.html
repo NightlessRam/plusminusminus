@@ -63,14 +63,14 @@
                 <!-- Like Form -->
                 <form method="POST" action="{{ url_for('interact') }}">
                     <input type="hidden" name="post_id" value="{{ post._id }}" />
-                    <input type="hidden" name="interaction" value="Like" />
+                    <input type="hidden" name="interaction" value="like" />
                     <button type="submit" class="like-btn"><i class="fas fa-thumbs-up"></i> ({{ post.get('like', 0) }})</button>
                 </form>
                 
                 <!-- Dislike Form -->
                 <form method="POST" action="{{ url_for('interact') }}">
                     <input type="hidden" name="post_id" value="{{ post._id }}" />
-                    <input type="hidden" name="interaction" value="Dislike" />
+                    <input type="hidden" name="interaction" value="dislike" />
                     <button type="submit" class="dislike-btn"><i class="fas fa-thumbs-down"></i> ({{ post.get('dislike', 0) }})</button>
                 </form>
                 </div>
