@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // Display differently based on whether the message is to self or to the other user
         var displayContent = `<span>Sent on: ${formattedDate}</span>
-            <p><strong>${data.sender}${data.to_self ? ' (DM ' + data.receiver + ')' : ' (DM you)'}</strong>: ${data.content}</p>`;
+            <p><strong>${data.sender}${data.to_self ? ' (DM ' + data.receiver + ')' : ' (DM you)'}</strong> : ${data.content}</p>`;
     
         messageDiv.innerHTML = displayContent;
         messagesDiv.prepend(messageDiv); // Adds the new DM to the top of the list

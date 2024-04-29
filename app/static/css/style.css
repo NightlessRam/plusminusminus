@@ -1,7 +1,7 @@
 body {
     font-family: 'Roboto', sans-serif;
-
-    background-color: rgb(201, 191, 105);
+    background-image: url('../background/leonardo-braz-food.jpg');
+    background-size: cover;
     text-align: center;
 }
 
@@ -132,8 +132,9 @@ img {
 
 
 .post {
-    background-color: rgb(35, 114, 94);
-    margin-bottom: 20px;
+    background-color: rgb(104, 95, 55);
+    margin-bottom: 10px;
+    border-bottom: 2px solid rgb(0, 0, 0);
 }
 
 .Authentication-Container{
@@ -177,4 +178,16 @@ img {
     cursor: pointer;
     height: 50%;
     width: 65px;
+}
+
+#posts {
+    border-radius: 8px;
+    height: 600px; 
+    overflow-y: auto; 
+    background-color: #92795b;
+}
+
+li {
+   background-color:  #92795b;
+   width: 50%;
 }
