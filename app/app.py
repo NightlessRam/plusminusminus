@@ -33,6 +33,14 @@ def apply_caching(response):
 @app.route('/')
 
 def index():
+    username = get_username_from_token(request.cookies.get('auth_token'))
+    query = {
+        "$or": [
+            {"messageType": {"$ne": "dm"}},
+            {"$or": [{"sender": username}, {"receiver": username}]}
+        ]
+    }
+    posts = list(mongo.db.posts.find(query))[::-1]
 
     #changed the handling of updating post likes/dislikes here
 
@@ -53,19 +61,19 @@ def index():
 
 
     #original route
-    posts = list(mongo.db.posts.find({}))  #retrieve all posts from database
+    # posts = list(mongo.db.posts.find({}))  #retrieve all posts from database
 
-    token = request.cookies.get('auth_token')
-    #init username as 'Guest'
-    username = 'Guest'
-    if token:
-        #hash token to match stored hash
-        hash_object = hashlib.sha256(token.encode('utf-8'))
-        token_hash = hash_object.hexdigest()
-        session_record = mongo.db.session.find_one({'token_hash': token_hash})
+    # token = request.cookies.get('auth_token')
+    # #init username as 'Guest'
+    # username = 'Guest'
+    # if token:
+    #     #hash token to match stored hash
+    #     hash_object = hashlib.sha256(token.encode('utf-8'))
+    #     token_hash = hash_object.hexdigest()
+    #     session_record = mongo.db.session.find_one({'token_hash': token_hash})
         
-        if session_record:
-            username = session_record['username']
+    #     if session_record:
+    #         username = session_record['username']
     return render_template('index.html', posts=posts, username=username)
 
 @app.route('/register', methods=['POST'])
