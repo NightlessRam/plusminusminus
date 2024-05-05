@@ -161,7 +161,7 @@ def create_post():
         
         #scheduled post
         scheduled_time_post = None
-        if content.startswith("!scheduled_post: "):
+        if content.startswith("!scheduled_post: ") and get_username_from_token(token) != 'Guest':
             if not (content[37:40] == "PM!" or content[37:40] == "AM!") or len(content)<=40 or not any(c != ' ' for c in content[40:]):
                 return jsonify(success=False, message="Invalid scheduled time format or no message"), 400
             scheduled_time_post = get_schedule_time(content)
@@ -368,21 +368,24 @@ def get_username_from_token(token):
             print(f"Error retrieving username from token: {e}")
     return username
 
-def emit_server_time():
-    current_time = datetime.now(pytz.timezone('US/Eastern')).strftime("%Y-%m-%d %H:%M:%S")
-    socketio.emit('server_time', {'time': current_time})
 
 def check_schedule_posts():
     while True:
         current_time = datetime.now(pytz.timezone('US/Eastern')).strftime("%m/%d/%Y %I:%M:%S %p")
         scheduled_posts = list(mongo.db.scheduled.find({}))
-
+        if len(scheduled_posts) == 0:
+            continue
         for post in scheduled_posts:
-            if 'scheduled_time' in post and post['scheduled_time'] < current_time:
-                mongo.db.posts.insert_one(post)
-                mongo.db.scheduled.delete_one({'_id': post['_id']})
-                socketio.emit('reload_page', namespace='/')
-        socketio.emit('server_time', {'time': current_time})
+            if 'scheduled_time' in post:
+                time_remaining = max(0, (datetime.strptime(post['scheduled_time'], "%m/%d/%Y %I:%M:%S %p") - datetime.strptime(current_time, "%m/%d/%Y %I:%M:%S %p")).total_seconds())
+                # socketio.emit('update_scheduled_post', {'time_remaining': time_remaining, 'post_id': str(post['_id'])}, namespace='/')
+                socketio.emit('update_scheduled_post', {'time_remaining': time_remaining, 'post_id': str(post['_id'])}, room=post['username'])
+
+                if post['scheduled_time'] < current_time:
+                    post["created_at"] = datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d')
+                    mongo.db.posts.insert_one(post)
+                    mongo.db.scheduled.delete_one({'_id': post['_id']})
+                    socketio.emit('reload_page', namespace='/') 
         print(f"Checked for scheduled posts at {current_time}.")
         time.sleep(1)
         
