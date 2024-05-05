@@ -303,7 +303,7 @@ def handle_connect():
         emit('update user list', list(users.keys()), broadcast=True, include_self=False)
         print(f"{username} connected and added to the user list.")
     else:
-        print("Guest connected; not adding to the user list.")
+        print("Guest connected; not adding to the user list.")    
         
 @socketio.on('disconnect')
 def handle_disconnect():
@@ -368,6 +368,9 @@ def get_username_from_token(token):
             print(f"Error retrieving username from token: {e}")
     return username
 
+def emit_server_time():
+    current_time = datetime.now(pytz.timezone('US/Eastern')).strftime("%Y-%m-%d %H:%M:%S")
+    socketio.emit('server_time', {'time': current_time})
 
 def check_schedule_posts():
     while True:
@@ -379,6 +382,7 @@ def check_schedule_posts():
                 mongo.db.posts.insert_one(post)
                 mongo.db.scheduled.delete_one({'_id': post['_id']})
                 socketio.emit('reload_page', namespace='/')
+        socketio.emit('server_time', {'time': current_time})
         print(f"Checked for scheduled posts at {current_time}.")
         time.sleep(1)
         

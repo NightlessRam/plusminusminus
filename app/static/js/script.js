@@ -192,4 +192,10 @@ document.addEventListener('DOMContentLoaded', function() {
     socket.on('reload_page', function() {
         location.reload();
     });
+    socket.on('server_time', function(data) {
+        var timeElement = document.getElementById('server-time');
+        if (timeElement) {
+            timeElement.textContent = data.time;
+        }
+    });
 });

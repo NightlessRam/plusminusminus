@@ -12,14 +12,14 @@
     <h1> Welcome, {{ username }}!</h1>
     <button id="toggleButton">Put image on screen</button>
     <img id="toggleImage" src="static/background/avocado.jpg" alt="Test Immage" style="max-width: 40%; height: 30%; margin-left: 30%;">
-
+    <div id="server-time"></div>
 
 
 <div class="big-container">
     <div class="Post-Container">
         
             <h2>Create a Post</h2>
-            Command for scheduled post: "!scheduled_post: mm/dd/yyyy hh:mm:ss AM!", ex: !scheduled_post: 05/04/2024 06:00:00 PM!
+            scheduled post command: "!scheduled_post: mm/dd/yyyy hh:mm:ss AM!"
             <div class="post-form-wrap">
             <form action="/posts" method="POST" id ="post-form" enctype="multipart/form-data">
                 <textarea name="content" class="chat-textbox" placeholder="What's on your mind?" required></textarea>
