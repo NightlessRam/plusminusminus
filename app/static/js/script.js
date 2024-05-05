@@ -189,4 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+    socket.on('reload_page', function() {
+        location.reload();
+    });
 });
