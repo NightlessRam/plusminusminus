@@ -394,6 +394,10 @@ def start_background_thread():
     thread.daemon = True  # Daemonize the thread so it will be terminated when the main thread exits
     thread.start()
 
+@app.route('/rock-paper-scissors')
+def rock_paper_scissors():
+    return render_template('rock_paper_scissors.html')
+
 if __name__ == '__main__':
     start_background_thread()
     socketio.run(app, host='0.0.0.0', port=8080, debug=True, use_reloader=False, allow_unsafe_werkzeug=True)
