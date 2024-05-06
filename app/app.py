@@ -83,13 +83,13 @@ def serve_static_file(path):
 def style_css():
     return serve_static_file('css/style.css')
 
-@app.route('/static/image/avocado.png')
+@app.route('/static/background/avocado.png')
 def avocado_png():
-    return serve_static_file('image/avocado.png')
+    return serve_static_file('background/avocado.png')
 
-@app.route('/static/image/Good_background.jpg')
+@app.route('/static/background/Good_background.jpg')
 def good_background_jpg():
-    return serve_static_file('image/Good_background.jpg')
+    return serve_static_file('background/Good_background.jpg')
 
 @app.route('/static/js/script.js')
 def script_js():
