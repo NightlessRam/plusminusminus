@@ -1,3 +1,4 @@
+from ast import Global
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, current_app
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from flask_pymongo import PyMongo
@@ -24,17 +25,24 @@ app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017
 mongo = PyMongo(app)
 socketio = SocketIO(app)
 
-limiter = Limiter(app=app, 
+# def shared_key():
+#     return "shared"
+limiter = Limiter(app=app,
                   key_func=get_remote_address, 
-                  default_limits=["10 per 10 seconds"],
+                  default_limits=["3 per 5 seconds; 2 per 1 seconds"]
 )
 
-shared_lim = limiter.shared_limit("50 per 10 seconds", scope = "scope")
+
+
+
+# shared_lim = limiter.shared_limit("50 per 10 seconds", scope = "scope")
+
 
 blocked_list = {}
 
 @app.before_request
 def check_block():
+    limiter.check()
     ip = get_remote_address()
     if ip in blocked_list:
         if datetime.now() < blocked_list[ip]:
@@ -59,7 +67,7 @@ def apply_caching(response):
 
 #Home Page
 @app.route('/')
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @limiter.limit("5 per 10 seconds")
 
 def index():
     username = get_username_from_token(request.cookies.get('auth_token'))
@@ -106,7 +114,7 @@ def index():
     return render_template('index.html', posts=posts, username=username)
 
 @app.route('/register', methods=['POST'])
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def register():
     username = request.form['username']
     password = request.form['password']
@@ -131,7 +139,7 @@ def register():
     return redirect(url_for('index'))
 
 @app.route('/login', methods=['POST'])
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def login():
     username = request.form['username']
     password = request.form['password']
@@ -166,7 +174,7 @@ def login():
         return 'Invalid username/password', 401
 
 @app.route('/logout', methods=['POST'])
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def logout():
     token = request.cookies.get('auth_token')
     username = get_username_from_token(token)
@@ -185,7 +193,7 @@ def logout():
 
 
 @app.route('/posts', methods=['POST'])
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def create_post():
     try:
         content = bleach.clean(request.form['content'])  # Sanitize input
@@ -232,7 +240,7 @@ def create_post():
         return jsonify(success=False, message=str(e)), 500
     
 @socketio.on('send chat message')
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def handle_chat_message(data):
     token = request.cookies.get('auth_token')
     username = 'Guest'
@@ -257,7 +265,7 @@ def handle_chat_message(data):
 
 
 @app.route('/interact', methods=['POST'])
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def interact():
     post_id = request.form.get('post_id')
     interaction_type = request.form.get('interaction')  # "Like" or "Dislike"
@@ -382,7 +390,7 @@ def save_image_to_disk(file):
     return filename
 
 @socketio.on('connect')
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def handle_connect():
     username = get_username_from_token(request.cookies.get('auth_token'))
     if username and username != 'Guest':
@@ -394,7 +402,7 @@ def handle_connect():
         print("Guest connected; not adding to the user list.")
         
 @socketio.on('disconnect')
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def handle_disconnect():
     # Retrieve username the same way upon disconnect
     username = get_username_from_token(request.cookies.get('auth_token'))
@@ -403,7 +411,7 @@ def handle_disconnect():
         emit('update user list', list(users.keys()), broadcast=True)
 
 @socketio.on('send dm')
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def handle_send_dm(data):
     sender = get_username_from_token(request.cookies.get('auth_token'))
     receiver = data['receiver']
@@ -441,7 +449,7 @@ def handle_send_dm(data):
         emit('receive dm', dm_data_to_sender, room=users[sender])
 
 @socketio.on('request_user_list')
-@limiter.limit("50 per 10 seconds", key_func=get_key)
+# @shared_lim
 def handle_request_user_list():
     emit('update user list', list(users.keys()), broadcast=True)
     print("User list requested and broadcasted.")
