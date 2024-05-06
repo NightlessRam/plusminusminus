@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for, session, j
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from flask_pymongo import PyMongo
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import os
 import bcrypt
 
@@ -21,10 +23,15 @@ app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017
 mongo = PyMongo(app)
 socketio = SocketIO(app)
 
+limiter = Limiter(app=app, 
+                  key_func=get_remote_address, 
+                  default_limits=["50 per 10 seconds"])
+
 users = {}  # Maps usernames to user session IDs
 
 #X-Content-Type-Options: nosniff header
 @app.after_request
+# @limiter
 def apply_caching(response):
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
@@ -263,6 +270,31 @@ def interact():
             'post_id':post_id,
             'interactor': interactor,
         }, {'$set':{'interaction': newReaction}})
+
+    username = get_username_from_token(request.cookies.get('auth_token'))
+    query = {
+        "$or": [
+            {"messageType": {"$ne": "dm"}},
+            {"$or": [{"sender": username}, {"receiver": username}]}
+        ]
+    }
+    posts = list(mongo.db.posts.find(query))[::-1]
+
+    #changed the handling of updating post likes/dislikes here
+
+    postUpdater = mongo.db.posts.find({})
+    for post in postUpdater:
+        print(post)
+        post_id = str(post["_id"])
+        post_interactions = mongo.db.interactions.find({"post_id": post_id})
+        likes = 0
+        dislikes = 0
+        for interactions in post_interactions:
+            if interactions["interaction"] == "like":
+                likes+=1
+            elif interactions["interaction"] == "dislike":
+                dislikes +=1
+        mongo.db.posts.update_one({"_id": post["_id"]},{"$set": {'like': likes, "dislike": dislikes}})
 
 
     
