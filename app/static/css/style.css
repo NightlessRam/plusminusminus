@@ -204,3 +204,43 @@ li {
     height: 200px;
     overflow-y: auto;
 }
+
+.rps-button {
+    background-color: rgb(8, 71, 55);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+    height: 100px;
+}
+
+.rps-button:hover {
+    background-color: rgb(35, 114, 94);
+    color: white;
+}
+
+
+
+button img {
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+    vertical-align: middle;
+}
+
+#result {
+    background-color: #92795b;
+}
+
+.homepage-button {
+    background-color: rgb(8, 71, 55);
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.homepage-button:hover {
+    background-color: rgb(46, 145, 120);
+    color: white;
+}
