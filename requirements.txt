@@ -5,4 +5,3 @@ bcrypt
 flask-socketio
 bleach
 pytz
-
