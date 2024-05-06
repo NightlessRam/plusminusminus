@@ -25,7 +25,8 @@ socketio = SocketIO(app)
 
 limiter = Limiter(app=app, 
                   key_func=get_remote_address, 
-                  default_limits=["50 per 10 seconds"])
+                  default_limits=["50 per 10 seconds"],
+                  expiry = 30)
 
 users = {}  # Maps usernames to user session IDs
 
