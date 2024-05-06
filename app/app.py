@@ -37,34 +37,24 @@ def get_client_ip():
 def check_and_update_request_count(ip):
     with lock:
         current_time = datetime.now()
-        if ip in ip_data:
-            # Reset count if last request was more than 10 seconds ago
-            if (current_time - ip_data[ip]['last_request_time']).seconds > 10:
-                ip_data[ip]['count'] = 1
-            else:
-                ip_data[ip]['count'] += 1
-            # Update last request time
-            ip_data[ip]['last_request_time'] = current_time
-        else:
-            # Initialize data for a new IP
+        if ip not in ip_data:
             ip_data[ip] = {
-                'count': 1,
-                'last_request_time': current_time,
+                'timestamps': [],
                 'block_until': None
             }
-
-        # Check if IP should be blocked
-        if ip_data[ip]['count'] > 50:
-            # Block for 30 seconds
+        # Filter timestamps to keep only those within the last 10 seconds
+        ip_data[ip]['timestamps'] = [timestamp for timestamp in ip_data[ip]['timestamps'] if current_time - timestamp <= timedelta(seconds=10)]
+        ip_data[ip]['timestamps'].append(current_time)
+        
+        if len(ip_data[ip]['timestamps']) > 50:
             ip_data[ip]['block_until'] = current_time + timedelta(seconds=30)
             return False
         return True
 
 def is_ip_blocked(ip):
     with lock:
-        if ip in ip_data:
-            if ip_data[ip]['block_until'] and datetime.now() < ip_data[ip]['block_until']:
-                return True
+        if ip in ip_data and ip_data[ip]['block_until'] and datetime.now() < ip_data[ip]['block_until']:
+            return True
         return False
 
 
