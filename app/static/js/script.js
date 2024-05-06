@@ -209,4 +209,15 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('scheduledPosts').appendChild(newPostElement);
         }
     });
+    window.onload = function() {
+        document.getElementById('toggleButton-schedule').addEventListener('click', function() {
+            var div = document.querySelector('.Scheduledsssssss');
+            if (div.style.display !== 'none') {
+                div.style.display = 'none';
+            } else {
+                div.style.display = 'block';
+            }
+        });
+    }
+    
 });
