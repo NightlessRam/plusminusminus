@@ -13,53 +13,59 @@ We are designing the backend of a social media web app where users can upload fo
 #  WalkThrough 
 [1) Register an Account and Login](#register-an-account-with-us)
 
-[2) Create a Scheduled Post](#create-a-post-to-share-with-others)
+[2) Create a Scheduled Post](#create-a-scheduled-post)
 
-[3) Play a Rock, Paper, Scissor Game!](#create-a-post-to-share-with-others)
+[3) Play a Rock, Paper, Scissor Game!](#play-a-rock-paper-scissor-game)
 
 
 ## Preview As a Guest & Click the Image Button
- <img width="1404" alt="Screenshot 2024-04-22 at 08 17 27" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/032070f3-7c24-420d-8233-71b252c40c32">
-<img width="1417" alt="Screenshot 2024-04-22 at 08 18 19" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/681701e1-4bb3-4b9d-ad62-19a5560cd805">
+<img width="1404" alt="Screenshot 2024-04-22 at 08 17 27" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/7108dbdf-37d0-4dd3-8a69-65750be95a5f">
+<img width="1417" alt="Screenshot 2024-04-22 at 08 18 19" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/80c014e1-6d7e-4670-a2e1-309d316388cd">
 
 ## Register an Account With Us
-<img width="1420" alt="Screenshot 2024-04-22 at 08 19 16" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/0f8f34b2-1fe6-4e22-9ea2-fc162709ff2d">
- <strong>Make Sure to remember your PASSWORD, as we have no support for password recovery right now! </strong> 
+<strong>Make Sure to remember your PASSWORD, as we have no support for password recovery right now! For testing purposes, I recommend using the Password: Qwer.123</strong> 
+<img width="1420" alt="Screenshot 2024-04-22 at 08 19 16" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/170c2784-e5e7-4d6c-ad73-dcfc7c4e25d0">
 
 ## Login with the Credentials 
-<img width="1418" alt="Screenshot 2024-04-22 at 08 21 03" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/982ff480-e143-446d-9bb4-d63ba4d81281">
+<strong>Login with the account you just made!</strong>
+<img width="1418" alt="Screenshot 2024-04-22 at 08 21 03" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/9f649e66-15e4-4fdf-aca8-d6cd224ef9de">
 
 ## Once logged in, the username registered with your account is displayed at the top 
-<img width="1423" alt="Screenshot 2024-04-22 at 08 22 09" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/4ea195b2-04ba-4614-826d-3800eb29d988">
-
-## Create a Post to Share with Others
-<strong>There's a little drop-down box, click on it, then select post, and write your message!(This gets sent using polling)</strong> 
-<img width="1412" alt="Screenshot 2024-04-22 at 08 26 28" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/9dec33e1-bf78-4fe9-9837-e9cc7d4adcb8">
-<strong>Scroll to the bottom to find your latest post!</strong>
-<img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/287eaa5f-9972-429f-8a57-57336f6a60e3">
-<strong>You can also attach an image(png/jpeg/gif) along with your message!(This gets sent using polling)</strong> 
-<strong>Only post contains like/dislike interactions!</strong>
-<strong>like/dislike interactions are permanent and the user can only like and dislike once!</strong>
-
-## Chat With Other Using Live Chat
-<strong>There's a little drop-down box, click on it, then select chat, and write your message!(This gets sent using Websocket, and this is only for live global chat, you can't send any images/gif)</strong> 
-<strong>After writing your message, click the 'Post Comment' button</strong>
-<strong>Every user should be able to see the message!</strong>
-<strong>No interactions for Live Chat, it is just a feature for everybody to communicate publicly!</strong>
+<strong>As you can see, at the top of the page it shows: Welcome, Someone!</strong>
+<img width="1423" alt="Screenshot 2024-04-22 at 08 22 09" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/ce37fe92-427b-419e-8509-37ba9c064aed">
 
 
-## Userlist
-<strong>Logged in users and connected to Websocket will appear on the bottom-right!</strong>
-<strong>Just Like the Homework 4 LO3 and AO1, where user will disappear when closing browser/logout</strong>
-<strong>Try Logging out yourself and see your username disappear from the Userlist</strong>
 
-## Sending a DM
-<strong>Find a user to message from the user list on the bottom-right! (Guest won't be able to see the DM button!)</strong>
-<img width="1401" alt="Screenshot 2024-04-22 at 08 23 00" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/6e53db2b-09ac-4ebc-ac0c-7c04fae35e9c">
-<strong>Write your message!</strong> 
-<img width="1419" alt="Screenshot 2024-04-22 at 08 23 35" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/d177121f-9a86-4100-aab3-96faaa08f649">
-<strong>Then it gets sent over using WebSockets, and other users won't be able to see your direct message!</strong> 
-<img width="1423" alt="Screenshot 2024-04-22 at 08 24 02" src="https://github.com/NightlessRam/plusminusminus/assets/109171773/ab82100b-0de6-4097-848c-8887f18b8f8a">
+## Create a Scheduled Post
+<strong>There's a little drop-down box, make sure it's on Post.</strong> 
+<strong>You have to be a logged-in user to use the command for scheduled post.</strong> 
+<strong>Here is the command: !scheduled_post: mm/dd/yyyy hh:mm:ss AM! "Your Messages"</strong> 
+<strong>Here is an example for testing purposes, let's say my current time is 05/06/2024 05:12 AM, you should put something like this: !scheduled_post: 05/06/2024 05:13:00 AM! Hello, my name is Someone!</strong> 
+<img width="1412" alt="Screenshot 2024-04-22 at 08 26 28" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/28ddebb0-43ad-43d4-86d5-6481ebf0ee7f">
+<strong>After you clicked the 'Post Comment' button, you should see the time remaining for the post on the top-left corner</strong>
+<img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/20229183-4920-4495-8a09-76ad6fffa2ec">
+<strong>When time remaining hits 0 seconds for the scheduled posts, you will see your message!</strong> 
+<img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/104ad523-a3f5-4497-9122-a9ab88bc9e60">
+
+
+## Play a Rock, Paper, Scissor Game!
+<strong>Hover over to this button below and click on it!</strong> 
+<img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/75cfeefe-e3ab-440d-8641-4aa3057cebc9">
+
+
+<strong>You should be redirected to this page!</strong>
+<strong>Now, you can play with a lovely computer friend! Choose your move!</strong>
+<img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/0662007a-07a6-4d50-bf1e-46a5d4930f59">
+
+
+<strong>I chose paper, and I won! YAY</strong>
+<img width="1413" alt="Screenshot 2024-04-22 at 08 26 44" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/af3fafc8-3c56-40ef-a1f9-21dc3a2dd52c">
+<strong>The best feature I've ever seen!</strong>
+
+
+
+
+
 
 ## Sources
 
