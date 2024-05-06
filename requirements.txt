@@ -4,4 +4,4 @@ bcrypt
 flask-socketio
 bleach
 pytz
-
+Flask-Limiter

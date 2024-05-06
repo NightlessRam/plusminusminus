@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, current_app
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from flask_pymongo import PyMongo
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 import os
 import bcrypt
@@ -16,6 +18,7 @@ from auth import validate_password
 
 
 app = Flask(__name__)
+limiter = Limiter(app, key_func=get_remote_address)
 app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/myDatabase')
 # app.secret_key = os.environ.get('SECRET_KEY', 'secretkey123456789')
 mongo = PyMongo(app)
@@ -31,6 +34,7 @@ def apply_caching(response):
 
 #Home Page
 @app.route('/')
+@limiter.limit('50 per 10 seconds')
 
 def index():
     username = get_username_from_token(request.cookies.get('auth_token'))
