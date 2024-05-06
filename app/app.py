@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, current_app
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, current_app, send_from_directory
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from flask_pymongo import PyMongo
 
@@ -22,6 +22,85 @@ app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017
 mongo = PyMongo(app)
 socketio = SocketIO(app)
 
+
+# Dictionary to store the expiration time of blocks
+ip_data = {}
+lock = threading.Lock()
+
+def get_client_ip():
+    # Try to retrieve the real IP from the X-Forwarded-For header
+    if request.headers.getlist("X-Forwarded-For"):
+        return request.headers.getlist("X-Forwarded-For")[0]
+    return request.remote_addr
+
+
+def check_and_update_request_count(ip):
+    with lock:
+        current_time = datetime.now()
+        if ip in ip_data:
+            # Reset count if last request was more than 10 seconds ago
+            if (current_time - ip_data[ip]['last_request_time']).seconds > 10:
+                ip_data[ip]['count'] = 1
+            else:
+                ip_data[ip]['count'] += 1
+            # Update last request time
+            ip_data[ip]['last_request_time'] = current_time
+        else:
+            # Initialize data for a new IP
+            ip_data[ip] = {
+                'count': 1,
+                'last_request_time': current_time,
+                'block_until': None
+            }
+
+        # Check if IP should be blocked
+        if ip_data[ip]['count'] > 50:
+            # Block for 30 seconds
+            ip_data[ip]['block_until'] = current_time + timedelta(seconds=30)
+            return False
+        return True
+
+def is_ip_blocked(ip):
+    with lock:
+        if ip in ip_data:
+            if ip_data[ip]['block_until'] and datetime.now() < ip_data[ip]['block_until']:
+                return True
+        return False
+
+
+def serve_static_file(path):
+    ip = get_client_ip()
+    if is_ip_blocked(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+
+    if not check_and_update_request_count(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+
+    return send_from_directory('static', path)
+
+# Define routes for specific static files
+@app.route('/static/css/style.css')
+def style_css():
+    return serve_static_file('css/style.css')
+
+@app.route('/static/image/avocado.png')
+def avocado_png():
+    return serve_static_file('image/avocado.png')
+
+@app.route('/static/image/Good_background.jpg')
+def good_background_jpg():
+    return serve_static_file('image/Good_background.jpg')
+
+@app.route('/static/js/script.js')
+def script_js():
+    return serve_static_file('js/script.js')
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return "Too Many Requests! You have exceeded your request limit. Please wait.", 429
+
+
+
 users = {}  # Maps usernames to user session IDs
 
 #X-Content-Type-Options: nosniff header
@@ -34,6 +113,14 @@ def apply_caching(response):
 @app.route('/')
 
 def index():
+    ip = get_client_ip()
+    if is_ip_blocked(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+    
+    if not check_and_update_request_count(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+    
+    
     username = get_username_from_token(request.cookies.get('auth_token'))
     query = {
         "$or": [
