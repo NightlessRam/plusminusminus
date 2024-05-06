@@ -1,17 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, current_app
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, make_response, current_app, send_from_directory
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from flask_pymongo import PyMongo
 
 import os
 import bcrypt
 
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from bson.objectid import ObjectId
 import bleach
 import hashlib
 import secrets
 import pytz
-
+import threading
 from auth import validate_password
 
 
@@ -20,6 +21,85 @@ app.config["MONGO_URI"] = os.environ.get('MONGO_URI', 'mongodb://localhost:27017
 # app.secret_key = os.environ.get('SECRET_KEY', 'secretkey123456789')
 mongo = PyMongo(app)
 socketio = SocketIO(app)
+
+
+# Dictionary to store the expiration time of blocks
+ip_data = {}
+lock = threading.Lock()
+
+def get_client_ip():
+    # Try to retrieve the real IP from the X-Forwarded-For header
+    if request.headers.getlist("X-Forwarded-For"):
+        return request.headers.getlist("X-Forwarded-For")[0]
+    return request.remote_addr
+
+
+def check_and_update_request_count(ip):
+    with lock:
+        current_time = datetime.now()
+        if ip in ip_data:
+            # Reset count if last request was more than 10 seconds ago
+            if (current_time - ip_data[ip]['last_request_time']).seconds > 10:
+                ip_data[ip]['count'] = 1
+            else:
+                ip_data[ip]['count'] += 1
+            # Update last request time
+            ip_data[ip]['last_request_time'] = current_time
+        else:
+            # Initialize data for a new IP
+            ip_data[ip] = {
+                'count': 1,
+                'last_request_time': current_time,
+                'block_until': None
+            }
+
+        # Check if IP should be blocked
+        if ip_data[ip]['count'] > 50:
+            # Block for 30 seconds
+            ip_data[ip]['block_until'] = current_time + timedelta(seconds=30)
+            return False
+        return True
+
+def is_ip_blocked(ip):
+    with lock:
+        if ip in ip_data:
+            if ip_data[ip]['block_until'] and datetime.now() < ip_data[ip]['block_until']:
+                return True
+        return False
+
+
+def serve_static_file(path):
+    ip = get_client_ip()
+    if is_ip_blocked(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+
+    if not check_and_update_request_count(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+
+    return send_from_directory('static', path)
+
+# Define routes for specific static files
+@app.route('/static/css/style.css')
+def style_css():
+    return serve_static_file('css/style.css')
+
+@app.route('/static/background/avocado.png')
+def avocado_png():
+    return serve_static_file('background/avocado.png')
+
+@app.route('/static/background/Good_background.jpg')
+def good_background_jpg():
+    return serve_static_file('background/Good_background.jpg')
+
+@app.route('/static/js/script.js')
+def script_js():
+    return serve_static_file('js/script.js')
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return "Too Many Requests! You have exceeded your request limit. Please wait.", 429
+
+
 
 users = {}  # Maps usernames to user session IDs
 
@@ -33,6 +113,14 @@ def apply_caching(response):
 @app.route('/')
 
 def index():
+    ip = get_client_ip()
+    if is_ip_blocked(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+    
+    if not check_and_update_request_count(ip):
+        return "Too Many Requests! Your IP is currently blocked. Please wait.", 429
+    
+    
     username = get_username_from_token(request.cookies.get('auth_token'))
     query = {
         "$or": [
@@ -57,23 +145,6 @@ def index():
             elif interactions["interaction"] == "dislike":
                 dislikes +=1
         mongo.db.posts.update_one({"_id": post["_id"]},{"$set": {'like': likes, "dislike": dislikes}})
-
-
-
-    #original route
-    # posts = list(mongo.db.posts.find({}))  #retrieve all posts from database
-
-    # token = request.cookies.get('auth_token')
-    # #init username as 'Guest'
-    # username = 'Guest'
-    # if token:
-    #     #hash token to match stored hash
-    #     hash_object = hashlib.sha256(token.encode('utf-8'))
-    #     token_hash = hash_object.hexdigest()
-    #     session_record = mongo.db.session.find_one({'token_hash': token_hash})
-        
-    #     if session_record:
-    #         username = session_record['username']
     return render_template('index.html', posts=posts, username=username)
 
 @app.route('/register', methods=['POST'])
@@ -152,6 +223,14 @@ def logout():
     return response
 
 
+def get_schedule_time(message:str):
+    #example command !scheduled_post: 05/04/2024 06:00:00 PM!
+    if message.startswith('!scheduled_post: '):
+        time = message.split("!")[1].split(": ")[1]
+        return time
+    else:
+        return None
+
 @app.route('/posts', methods=['POST'])
 def create_post():
     try:
@@ -167,30 +246,37 @@ def create_post():
         if image and allowed_file(image.filename):
             image_filename = save_image_to_disk(image)
         
+        #scheduled post
+        scheduled_time_post = None
+        if content.startswith("!scheduled_post: ") and get_username_from_token(token) != 'Guest':
+            if not (content[37:40] == "PM!" or content[37:40] == "AM!") or len(content)<=40 or not any(c != ' ' for c in content[40:]):
+                return jsonify(success=False, message="Invalid scheduled time format or no message"), 400
+            scheduled_time_post = get_schedule_time(content)
+            current_time = datetime.now(pytz.timezone('US/Eastern')).strftime("%m/%d/%Y %I:%M:%S %p")
+            content = content[40:]  # Remove the scheduled time from the content
+        elif content.startswith("!") and not content.startswith("!scheduled_post: "):
+            return jsonify(success=False, message="Invalid command"), 400
+        
+        if scheduled_time_post is not None and (scheduled_time_post<current_time):
+            return jsonify(success=False, message="Scheduled time is in the past"), 400
+
         #init username as 'Guest'
-        username = 'Guest'
-        if token:
-            # Hash the token to match the stored hash
-            hash_object = hashlib.sha256(token.encode('utf-8'))
-            token_hash = hash_object.hexdigest()
-            # Find the session in the database using the hashed token
-            session_record = mongo.db.session.find_one({'token_hash': token_hash})
-            
-            if session_record:
-                # If a session is found, retrieve the username from the session
-                username = session_record['username']
+        username = get_username_from_token(token)
         post = {
             'username': username,
             'content': content,
             'image': image_filename,
             'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d'),
-            'messageType': messageType
+            'messageType': messageType,
+            'scheduled_time': scheduled_time_post
         }
         # Add likes and dislikes only for posts
         # if messageType == 'post':
         #     post.update({'likes': 0, 'dislikes': 0})
-            
-        mongo.db.posts.insert_one(post)
+        if scheduled_time_post is not None:
+            mongo.db.scheduled.insert_one(post)
+        else:
+            mongo.db.posts.insert_one(post) 
         # post['_id'] = str(post['_id'])  #convert ObjectId to string for JSON serialization
         # return jsonify(post)
 
@@ -217,7 +303,7 @@ def handle_chat_message(data):
     post = {
         'username': username,
         'content': message,
-        'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%B %d, %Y at %I:%M:%S %p'),
+        'created_at': datetime.now(pytz.timezone('US/Eastern')).strftime('%B %d, %Y at %I:%M:%S %p')
     }
     mongo.db.posts.insert_one(post)
 
@@ -263,30 +349,6 @@ def interact():
             'post_id':post_id,
             'interactor': interactor,
         }, {'$set':{'interaction': newReaction}})
-
-
-    
-    # #makesure a user cant like/dislike more than once
-    # if not mongo.db.interactions.find_one({
-    #     'post_id': post_id,
-    #     'interactor': interactor,
-    #     'interaction': interaction_type
-    # }):
-    #     mongo.db.interactions.insert_one({
-    #         'post_id': post_id,
-    #         'interactor': interactor,
-    #         'interaction': interaction_type
-    #     })
-    #     update_field = 'like' if interaction_type == 'Like' else 'Dislike'
-    #     mongo.db.posts.update_one({'_id': post_id}, {'$inc': {update_field: 1}})
-    #     if interaction_type == 'Like':
-    #         mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'like': 1}})
-    #     elif interaction_type == 'Dislike':
-    #         mongo.db.posts.update_one({'_id': ObjectId(post_id)}, {'$inc': {'dislike': 1}})
-
-    #     return redirect(url_for('index'))
-    # This is where you'd return a suitable response to the AJAX request
-    # return jsonify(success=True)
     return redirect(url_for('index'))
 
 # Helper Merthod for file extensions
@@ -330,7 +392,7 @@ def handle_connect():
         emit('update user list', list(users.keys()), broadcast=True, include_self=False)
         print(f"{username} connected and added to the user list.")
     else:
-        print("Guest connected; not adding to the user list.")
+        print("Guest connected; not adding to the user list.")    
         
 @socketio.on('disconnect')
 def handle_disconnect():
@@ -395,6 +457,37 @@ def get_username_from_token(token):
             print(f"Error retrieving username from token: {e}")
     return username
 
+
+def check_schedule_posts():
+    while True:
+        current_time = datetime.now(pytz.timezone('US/Eastern')).strftime("%m/%d/%Y %I:%M:%S %p")
+        scheduled_posts = list(mongo.db.scheduled.find({}))
+        if len(scheduled_posts) == 0:
+            continue
+        for post in scheduled_posts:
+            if 'scheduled_time' in post:
+                time_remaining = max(0, (datetime.strptime(post['scheduled_time'], "%m/%d/%Y %I:%M:%S %p") - datetime.strptime(current_time, "%m/%d/%Y %I:%M:%S %p")).total_seconds())
+                # socketio.emit('update_scheduled_post', {'time_remaining': time_remaining, 'post_id': str(post['_id'])}, namespace='/')
+                socketio.emit('update_scheduled_post', {'time_remaining': time_remaining, 'post_id': str(post['_id'])}, room=post['username'])
+
+                if post['scheduled_time'] < current_time:
+                    post["created_at"] = datetime.now(pytz.timezone('US/Eastern')).strftime('%Y-%m-%d')
+                    mongo.db.posts.insert_one(post)
+                    mongo.db.scheduled.delete_one({'_id': post['_id']})
+                    socketio.emit('reload_page', namespace='/') 
+        print(f"Checked for scheduled posts at {current_time}.")
+        time.sleep(1)
+        
+def start_background_thread():
+    thread = threading.Thread(target=check_schedule_posts)
+    thread.daemon = True  # Daemonize the thread so it will be terminated when the main thread exits
+    thread.start()
+
+@app.route('/rock-paper-scissors')
+def rock_paper_scissors():
+    return render_template('rock_paper_scissors.html')
+
 if __name__ == '__main__':
+    start_background_thread()
     socketio.run(app, host='0.0.0.0', port=8080, debug=True, use_reloader=False, allow_unsafe_werkzeug=True)
     # app.run(host='0.0.0.0', port=8080, debug=True)

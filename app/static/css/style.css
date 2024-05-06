@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background-image: url('../background/leonardo-braz-food.jpg');
+    background-image: url('../background/Good_background.jpg');
     background-size: cover;
     text-align: center;
 }
@@ -190,4 +190,57 @@ img {
 li {
    background-color:  #92795b;
    width: 50%;
+}
+
+.scheduled_post{
+    position: flex;
+    align-self: center;
+    width: 20%;
+    background-color: #92795b;
+    color: #000000;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 200px;
+    overflow-y: auto;
+}
+
+.rps-button {
+    background-color: rgb(8, 71, 55);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    align-self: center;
+    height: 100px;
+}
+
+.rps-button:hover {
+    background-color: rgb(35, 114, 94);
+    color: white;
+}
+
+
+
+button img {
+    width: 100px; /* Adjust size as needed */
+    height: auto;
+    vertical-align: middle;
+}
+
+#result {
+    background-color: #92795b;
+}
+
+.homepage-button {
+    background-color: rgb(8, 71, 55);
+    color: white;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.homepage-button:hover {
+    background-color: rgb(46, 145, 120);
+    color: white;
 }

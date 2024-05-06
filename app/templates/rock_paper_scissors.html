@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rock, Paper, Scissors Game</title>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <script src="static/js/rps_game.js"></script>
+</head>
+<body>
+    <h1>Rock, Paper, Scissors Game</h1>
+    <button class="homepage-button" onclick="window.location.href='/'">Back to Home Page!</button>
+    <p id="status">Choose your move:</p>
+    <div id="game-controls">
+        <button onclick="play('rock')"><img src="static/image/rock.png" alt="Rock" /></button>
+        <button onclick="play('paper')"><img src="static/image/paper.png" alt="Paper" /></button>
+        <button onclick="play('scissors')"><img src="static/image/scissors.png" alt="Scissors" /></button>
+    </div>
+    <div id="result"></div>
+</body>
+</html>

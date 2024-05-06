@@ -189,4 +189,24 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Reload the page when requested by the server
+    socket.on('reload_page', function() {
+        location.reload();
+    });
+
+    socket.on('update_scheduled_post', function(data) {
+        var timeRemaining = data.time_remaining;
+        var postId = data.post_id;
+    
+        var remainingTimeElement = document.getElementById(postId + '_remaining');
+        if (remainingTimeElement) {
+            remainingTimeElement.innerText = 'Time remaining: ' + timeRemaining + ' seconds';
+        } else {
+            var newPostElement = document.createElement('div');
+            newPostElement.id = postId + '_remaining';
+            newPostElement.innerText = 'Time remaining: ' + timeRemaining + ' seconds';
+            document.getElementById('scheduledPosts').appendChild(newPostElement);
+        }
+    });
 });
