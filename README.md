@@ -39,7 +39,8 @@ We are designing the backend of a social media web app where users can upload fo
 ## Create a Scheduled Post
 <strong>There's a little drop-down box, make sure it's on Post.</strong> 
 <strong>You have to be a logged-in user to use the command for scheduled post.</strong> 
-<strong>Here is the command: !scheduled_post: mm/dd/yyyy hh:mm:ss AM! "Your Messages"</strong> 
+<strong>Here is the command format: !scheduled_post: mm/dd/yyyy hh:mm:ss AM! "Your Messages"</strong> 
+<strong>Please follow the command format above to make a schedule post</strong> 
 <strong>Here is an example for testing purposes, let's say my current time is 05/06/2024 05:12 AM, you should put something like this: !scheduled_post: 05/06/2024 05:13:00 AM! Hello, my name is Someone!</strong> 
 <img width="1412" alt="Screenshot 2024-04-22 at 08 26 28" src="https://github.com/NightlessRam/plusminusminus/assets/112526973/28ddebb0-43ad-43d4-86d5-6481ebf0ee7f">
 <strong>After you clicked the 'Post Comment' button, you should see the time remaining for the post on the top-left corner</strong>
