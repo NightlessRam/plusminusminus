@@ -11,13 +11,11 @@
 We are designing the backend of a social media web app where users can upload food reviews and connect with one another to show each other the new restaurants, bars, cafes, or food courts they discover. Users can currently post and interact with other posts, but we will have more interactive features on the way!
 
 #  WalkThrough 
-[1) Register an Account](#register-an-account-with-us)
+[1) Register an Account and Login](#register-an-account-with-us)
 
-[2) Create a Post](#create-a-post-to-share-with-others)
+[2) Create a Scheduled Post](#create-a-post-to-share-with-others)
 
-[3) Interact with other Posts](#create-a-post-to-share-with-others)
-
-[4) Send a Direct Message to other Users](#sending-a-dm)
+[3) Play a Rock, Paper, Scissor Game!](#create-a-post-to-share-with-others)
 
 
 ## Preview As a Guest & Click the Image Button
