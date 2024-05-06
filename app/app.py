@@ -167,7 +167,9 @@ def create_post():
             scheduled_time_post = get_schedule_time(content)
             current_time = datetime.now(pytz.timezone('US/Eastern')).strftime("%m/%d/%Y %I:%M:%S %p")
             content = content[40:]  # Remove the scheduled time from the content
-            
+        elif content.startswith("!") and not content.startswith("!scheduled_post: "):
+            return jsonify(success=False, message="Invalid command"), 400
+        
         if scheduled_time_post is not None and (scheduled_time_post<current_time):
             return jsonify(success=False, message="Scheduled time is in the past"), 400
 
